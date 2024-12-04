@@ -6,11 +6,14 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:13:54 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/04 17:53:20 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/04 18:25:33 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	pipex_clean_up(t_pipex **pipex);
+void	ft_destroy_string(char *str);
 
 int	main(int argc, char *argv[])
 {
@@ -33,7 +36,8 @@ int	main(int argc, char *argv[])
 	{
 		ft_printf("\"%s\"\n", pipex->args[c]);
 		c++;
-	}	
+	}
+	
 	/*if (pid == 0)
 	{
 		ft_printf("I am child - executing first command on input file\n");
@@ -42,5 +46,48 @@ int	main(int argc, char *argv[])
 	{
 		ft_printf("I am parent - executing second command, saving to output\n");
 	}*/
+	pipex_clean_up(&pipex);
 	exit(EXIT_SUCCESS);
+}
+
+void	pipex_clean_up(t_pipex **pipex)
+{
+	int		i;
+	char	*arg;
+
+	if ((*pipex)->args[0])
+	{
+		i = 0;
+		while (i < 4)
+		{
+			arg = (*pipex)->args[i];
+			ft_destroy_string(arg); // function deallocating the memory of a string
+			free(arg);
+			(*pipex)->args[i] = NULL;
+			i++;
+		}
+	}
+	if ((*pipex)->pipe[0])
+	{
+		close(*((*pipex)->pipe[0]));
+		close(*((*pipex)->pipe[1]));
+		free((*pipex)->pipe[0]);
+		free((*pipex)->pipe[1]);
+	}
+}
+
+void	ft_destroy_string(char *str)
+{
+	char	*c;
+	int		len;
+	int		i;
+	
+	c = str;
+	len = ft_strlen(str);
+	while (len >= 0)
+	{
+		c[len] = 0;
+		len--;
+	}
+	str = NULL;
 }

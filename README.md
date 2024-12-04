@@ -4,7 +4,11 @@
 
 > This project is mostly about ```<unistd.h>``` Library
 
-# BASH Whitespaces:
+# TODO
+> - [ ] figure out how to free memory from a string to resolve my cleak even after my program clean-up function (leak des at the bottom of this file)
+> <br>
+
+# BASH Notes
 <i>[Whitespace functions as a separator between commands and/or variables. Whitespace consists of either spaces, tabs, blank lines, or any combination thereof.](https://tldp.org/LDP/abs/html/special-chars.html#WHITESPACEREF)</i>
 
 ## <unistd.h> Library
@@ -93,3 +97,41 @@ Upon successful completion, these functions shall open the file and return a non
 ### wait
 ### waitpid
 
+# Leak reports
+
+## 4th Dec 2024
+```
+➜  pipex git:(main) ✗ valgrind --leak-check=full --show-leak-kinds=all ./pipex infile "ls -l" "wc -l" outfile
+==184103== Memcheck, a memory error detector
+==184103== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==184103== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==184103== Command: ./pipex infile ls\ -l wc\ -l outfile
+==184103== 
+"infile"
+"ls -l"
+"wc -l"
+"outfile"
+"infile"
+"ls -l"
+"wc -l"
+"outfile"
+==184103== 
+==184103== HEAP SUMMARY:
+==184103==     in use at exit: 56 bytes in 1 blocks
+==184103==   total heap usage: 13 allocs, 12 frees, 32,851 bytes allocated
+==184103== 
+==184103== 56 bytes in 1 blocks are still reachable in loss record 1 of 1
+==184103==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==184103==    by 0x40271D: ft_calloc (ft_calloc.c:36)
+==184103==    by 0x4011BF: main (pipex.c:27)
+==184103== 
+==184103== LEAK SUMMARY:
+==184103==    definitely lost: 0 bytes in 0 blocks
+==184103==    indirectly lost: 0 bytes in 0 blocks
+==184103==      possibly lost: 0 bytes in 0 blocks
+==184103==    still reachable: 56 bytes in 1 blocks
+==184103==         suppressed: 0 bytes in 0 blocks
+==184103== 
+==184103== For lists of detected and suppressed errors, rerun with: -s
+==184103== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+```
