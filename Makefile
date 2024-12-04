@@ -6,7 +6,7 @@
 #    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/04 15:20:00 by zslowian          #+#    #+#              #
-#    Updated: 2024/12/04 16:14:27 by zslowian         ###   ########.fr        #
+#    Updated: 2024/12/04 16:18:56 by zslowian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRC = pipex.c
 OBJ = $(SRC:.c=.o)
 
 %.o : %.c
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ -g -pthread
 
 $(NAME): $(OBJ) $(LIBFT)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIB) -o $(NAME)
@@ -43,5 +43,8 @@ clean:
 	@$(MAKE) -C $(LIBFT_F) fclean
 
 re: fclean all
+
+debug: $(OBJ) $(LIBFT)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIB) -o $(NAME) -g -pthread
 
 .PHONY: all clean fclean libft re
