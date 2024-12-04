@@ -1,29 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/04 15:13:54 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/04 16:13:37 by zslowian         ###   ########.fr       */
+/*   Created: 2024/12/04 15:15:23 by zslowian          #+#    #+#             */
+/*   Updated: 2024/12/04 15:18:56 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#ifndef PIPEX_H
+# define PIPEX_H
 
-int	main(int argc, char *argv[])
-{
-	int	pid;
+#include "libft.h"
+#include <stdlib.h> // exit()
 
-	pid = fork();
-	if (pid == 0)
-	{
-		ft_printf("I am child - executing first command on input file\n");
-	}
-	else
-	{
-		ft_printf("I am parent - executing second command, saving to output\n");
-	}
-	exit(EXIT_SUCCESS);
-}
+#endif
