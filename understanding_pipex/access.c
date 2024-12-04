@@ -4,7 +4,6 @@
 
 int	main()
 {
-	//can  the  user  who  invoked  me read/write/execute  this  file?
 	if (!access("example.txt", F_OK))
 		printf("File exist\n");
 	else
