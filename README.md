@@ -4,6 +4,9 @@
 
 > This project is mostly about ```<unistd.h>``` Library
 
+# BASH Whitespaces:
+<i>[Whitespace functions as a separator between commands and/or variables. Whitespace consists of either spaces, tabs, blank lines, or any combination thereof.](https://tldp.org/LDP/abs/html/special-chars.html#WHITESPACEREF)</i>
+
 ## <unistd.h> Library
 
 ### close (some examples in man 3)
@@ -89,3 +92,4 @@ Upon successful completion, these functions shall open the file and return a non
 
 ### wait
 ### waitpid
+
