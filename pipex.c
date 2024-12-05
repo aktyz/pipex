@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:13:54 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/05 12:26:30 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/05 13:05:13 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,33 +19,52 @@ int	main(int argc, char *argv[])
 {
 	t_pipex	*pipex;
 	int		c;
+	char	buf[13];
 
-	
 	if (argc != 5)
 		exit(EXIT_FAILURE);
 	c = 0;
 	pipex = ft_calloc(1, sizeof(t_pipex));
+	if (!pipex)
+	{
+		ft_printf("Error with ft_calloc\n");
+		pipex_clean_up(&pipex);
+		exit(EXIT_FAILURE);
+	}
 	while(c < argc - 1)
 	{
-		ft_printf("\"%s\"\n", argv[c + 1]);
-		pipex->args[c] = ft_strtrim(argv[c + 1], TRIM_SET); // malloc inside
+		pipex->args[c] = ft_strtrim(argv[c + 1], TRIM_SET);
 		c++;
 	}
-	c = 0;
-	while(c < argc - 1)
+	c = pipe(pipex->pipe_fd);
+	if (c == -1)
 	{
-		ft_printf("\"%s\"\n", pipex->args[c]);
-		c++;
+		ft_printf("Error with pipe\n");
+		pipex_clean_up(&pipex);
+		exit(EXIT_FAILURE);
 	}
-	
-	/*if (pid == 0)
+	pipex->child_pid = (long) fork();
+	if (pipex->child_pid == -1)
+	{
+		ft_printf("Error with fork\n");
+		pipex_clean_up(&pipex);
+		exit(EXIT_FAILURE);
+	}
+	if (pipex->child_pid == 0)
 	{
 		ft_printf("I am child - executing first command on input file\n");
+		close(pipex->pipe_fd[0]);
+		write(pipex->pipe_fd[1], "Hello parent!", 13);
+		close(pipex->pipe_fd[1]);
 	}
 	else
 	{
+		close(pipex->pipe_fd[1]);
+		read(pipex->pipe_fd[0], buf, 13);
+		close(pipex->pipe_fd[0]);
 		ft_printf("I am parent - executing second command, saving to output\n");
-	}*/
+		ft_printf("Message from my child: \"%s\"\n", buf);
+	}
 	pipex_clean_up(&pipex);
 	exit(EXIT_SUCCESS);
 }
@@ -54,24 +73,19 @@ void	pipex_clean_up(t_pipex **pipex)
 {
 	int		i;
 	char	*arg;
+	t_pipex	*clean;
 
-	if ((*pipex)->args[0])
+	clean = *pipex;
+	if (clean->args[0])
 	{
 		i = 0;
 		while (i < 4)
 		{
-			arg = (*pipex)->args[i];
+			arg = clean->args[i];
 			free(arg);
-			(*pipex)->args[i] = NULL;
+			clean->args[i] = NULL;
 			i++;
 		}
 	}
-	free(*pipex);
-	/*if ((*pipex)->pipe[0])
-	{
-		close(*((*pipex)->pipe[0]));
-		close(*((*pipex)->pipe[1]));
-		free((*pipex)->pipe[0]);
-		free((*pipex)->pipe[1]);
-	}*/
+	free(clean);
 }

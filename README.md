@@ -5,8 +5,12 @@
 > This project is mostly about ```<unistd.h>``` Library
 
 # TODO
-> - [ ] figure out how to free memory from a string to resolve my cleak even after my program clean-up function (leak des at the bottom of this file)
-> <br>
+> - [x] figure out how to free memory from a string to resolve my cleak even after my program clean-up function (leak des at the bottom of this file)
+- [ ] norminette on main program structure
+- [ ] how to handle the save of the data passed from child to parent - it will have unknown size... and structure depending on the commands called
+
+# Libft TODO
+- [ ] correct ft_strtrim for spaces inside the string: ```ft_trim("ls   -l")``` resulted in ```"ls   -l"``` instead of ```"ls -l"```
 
 # BASH Notes
 <i>[Whitespace functions as a separator between commands and/or variables. Whitespace consists of either spaces, tabs, blank lines, or any combination thereof.](https://tldp.org/LDP/abs/html/special-chars.html#WHITESPACEREF)</i>
