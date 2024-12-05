@@ -6,15 +6,15 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:13:54 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/05 15:30:11 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:16:24 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	ft_clean_up(t_pipex **pipex);
+void	ft_clean_up(t_pipex **pipex);
+void	ft_error(t_pipex ***pipex);
 static void	ft_create_struct(t_pipex **pipex, char *args[]);
-static void	ft_error(t_pipex ***pipex);
 
 int	main(int argc, char *argv[])
 {
@@ -31,7 +31,7 @@ int	main(int argc, char *argv[])
 	exit(EXIT_SUCCESS);
 }
 
-static void	ft_clean_up(t_pipex **pipex)
+void	ft_clean_up(t_pipex **pipex)
 {
 	int		i;
 	char	*arg;
@@ -50,6 +50,14 @@ static void	ft_clean_up(t_pipex **pipex)
 		}
 	}
 	free(clean);
+}
+
+void	ft_error(t_pipex ***pipex)
+{
+	perror(strerror(errno));
+	if (**pipex)
+		ft_clean_up(*pipex);
+	exit(EXIT_FAILURE);
 }
 
 static void	ft_create_struct(t_pipex **pipex, char *args[])
@@ -71,12 +79,4 @@ static void	ft_create_struct(t_pipex **pipex, char *args[])
 	(*pipex)->child_pid = (int) fork();
 	if ((*pipex)->child_pid == -1)
 		ft_error(&pipex);
-}
-
-static void	ft_error(t_pipex ***pipex)
-{
-	perror(strerror(errno));
-	if (**pipex)
-		ft_clean_up(*pipex);
-	exit(EXIT_FAILURE);
 }

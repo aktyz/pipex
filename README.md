@@ -6,8 +6,9 @@
 
 # TODO
 > - [x] figure out how to free memory from a string to resolve my cleak even after my program clean-up function (leak des at the bottom of this file)
-- [ ] norminette on main program structure
-- [ ] how to handle the save of the data passed from child to parent - it will have unknown size... and structure depending on the commands called
+- [x] norminette on main program structure
+- [x] how to handle the save of the data passed from child to parent - it will have unknown size... and structure depending on the commands called
+- [ ] fix properly and test ft_strjoin in libft so that you can use it
 
 # Libft TODO
 - [ ] correct ft_strtrim for spaces inside the string: ```ft_trim("ls   -l")``` resulted in ```"ls   -l"``` instead of ```"ls -l"```
