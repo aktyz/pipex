@@ -62,6 +62,11 @@ Simply put deleting the file.
 ## <stdio.h> Library
 
 ### perror
+Syntax:<br>
+```
+void perror(const char *s);
+```
+The  perror()  function produces a message on standard error describing the last error encountered during a call to a system or library function.
 
 ## <string.h> Library
 

@@ -6,7 +6,7 @@
 #    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/04 15:20:00 by zslowian          #+#    #+#              #
-#    Updated: 2024/12/04 16:18:56 by zslowian         ###   ########.fr        #
+#    Updated: 2024/12/05 13:43:31 by zslowian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,10 +36,11 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFT_F)
 
 fclean: clean
-	@rm -f $(NAME) $(OBJ)
+	@$(RM) $(NAME) $(OBJ)
+	@$(RM) ./understanding_pipex/a.out
 
 clean:
-	@rm -f $(OBJ)
+	@$(RM) $(OBJ)
 	@$(MAKE) -C $(LIBFT_F) fclean
 
 re: fclean all

@@ -12,12 +12,14 @@ int	main()
 	args[1] = "-la";
 	args[2] = (char *)NULL;
 	// my execve cannot find the binary :(
-	result = execve("usr/bin/ls", args, NULL);
-	printf("This will not be executed\n");
+	// works at campus computer
+	result = execve("/bin/ls", args, NULL);
 	if (result == -1)
-		{
-			printf("return from execve function: %d\n", result);
+	{
+		result = execve("/usr/bin/ls", args, NULL);
+		if (result == -1)
 			printf("execve failed: %s\n", strerror(errno));
-		}
+	}
+	printf("This will not be executed\n");
 	return (0);
 }
