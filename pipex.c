@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:13:54 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/04 18:25:33 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/05 12:26:30 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,33 +61,17 @@ void	pipex_clean_up(t_pipex **pipex)
 		while (i < 4)
 		{
 			arg = (*pipex)->args[i];
-			ft_destroy_string(arg); // function deallocating the memory of a string
 			free(arg);
 			(*pipex)->args[i] = NULL;
 			i++;
 		}
 	}
-	if ((*pipex)->pipe[0])
+	free(*pipex);
+	/*if ((*pipex)->pipe[0])
 	{
 		close(*((*pipex)->pipe[0]));
 		close(*((*pipex)->pipe[1]));
 		free((*pipex)->pipe[0]);
 		free((*pipex)->pipe[1]);
-	}
-}
-
-void	ft_destroy_string(char *str)
-{
-	char	*c;
-	int		len;
-	int		i;
-	
-	c = str;
-	len = ft_strlen(str);
-	while (len >= 0)
-	{
-		c[len] = 0;
-		len--;
-	}
-	str = NULL;
+	}*/
 }
