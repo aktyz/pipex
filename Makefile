@@ -6,7 +6,7 @@
 #    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/04 15:20:00 by zslowian          #+#    #+#              #
-#    Updated: 2024/12/05 13:43:31 by zslowian         ###   ########.fr        #
+#    Updated: 2024/12/05 15:18:47 by zslowian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,9 @@ FLAGS = -Wall -Wextra -Werror
 LIB = -L $(LIBFT_F) -lft
 RM = rm -f
 
-SRC = pipex.c
+SRC = pipex.c \
+	pipex_child.c \
+	pipex_parent.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:13:54 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/05 14:48:46 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/05 15:30:11 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,14 @@ static void	ft_error(t_pipex ***pipex);
 int	main(int argc, char *argv[])
 {
 	t_pipex	*pipex;
-	char	buf[13];
 
 	if (argc != 5)
 		exit(EXIT_FAILURE);
 	ft_create_struct(&pipex, argv);
 	if (pipex->child_pid == 0)
-	{
-		ft_printf("I am child - executing first command on input file\n");
-		close(pipex->pipe_fd[0]);
-		write(pipex->pipe_fd[1], "Hello parent!\n", 13);
-		close(pipex->pipe_fd[1]);
-	}
+		ft_child_process(&pipex);
 	else
-	{
-		close(pipex->pipe_fd[1]);
-		read(pipex->pipe_fd[0], buf, 13);
-		close(pipex->pipe_fd[0]);
-		ft_printf("I am parent - executing second command, saving to output\n");
-		ft_printf("Message from my child: \"%s\"\n", buf);
-	}
+		ft_parent_process(&pipex);
 	ft_clean_up(&pipex);
 	exit(EXIT_SUCCESS);
 }
@@ -80,7 +68,7 @@ static void	ft_create_struct(t_pipex **pipex, char *args[])
 	c = pipe((*pipex)->pipe_fd);
 	if (c == -1)
 		ft_error(&pipex);
-	(*pipex)->child_pid = (long) fork();
+	(*pipex)->child_pid = (int) fork();
 	if ((*pipex)->child_pid == -1)
 		ft_error(&pipex);
 }
