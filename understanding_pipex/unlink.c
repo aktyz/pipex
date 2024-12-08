@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unlink.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/08 06:29:19 by zslowian          #+#    #+#             */
+/*   Updated: 2024/12/08 06:30:15 by zslowian         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h> // printf perror
 #include <unistd.h> // unlink
 #include <stdlib.h> // exit
 #include <errno.h> // errno
 #include <string.h> // library
 
-int	main()
+int	main(void)
 {
 	int	result;
 

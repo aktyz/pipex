@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 03:53:28 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/08 05:24:21 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/08 06:09:44 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,5 @@ void	ft_allocate_execve_arg(char *str, char **word, int start_i,
 		j++;
 		nb_chars--;
 	}
-	my_word[j] = '\0'; // Invalid write of size 1 - isn't it because of the wrong stop condition in my while
+	my_word[j] = '\0';
 }

@@ -1,13 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipe.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/08 06:29:09 by zslowian          #+#    #+#             */
+/*   Updated: 2024/12/08 06:36:04 by zslowian         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h> // printf perror
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h> // pid_t
 
-int	main()
+void	ft_child(int **a);
+void	ft_parent(int **a);
+
+int	main(void)
 {
 	int		fd[2];
 	pid_t	pid;
-	char	buf[13];
 
 	if (pipe(fd) == -1)
 	{
@@ -21,18 +35,31 @@ int	main()
 		exit(EXIT_FAILURE);
 	}
 	if (pid == 0)
-	{
-		close(fd[0]);
-		write(fd[1], "Hello parent!", 13);
-		close(fd[1]);
-		exit(EXIT_SUCCESS);
-	}
+		ft_child(&fd);
 	else
-	{
-		close(fd[1]);
-		read(fd[0], buf, 13);
-		close(fd[0]);
-		printf("Message from my child: \"%s\"\n", buf);
-		exit(EXIT_SUCCESS);
-	}
+		ft_parent(&fd);
+}
+
+void	ft_child(int **a)
+{
+	int	*fd;
+
+	fd = *a;
+	close(fd[0]);
+	write(fd[1], "Hello parent!", 13);
+	close(fd[1]);
+	exit(EXIT_SUCCESS);
+}
+
+void	ft_parent(int **a)
+{
+	int		*fd;
+	char	buf[13];
+
+	fd = *a;
+	close(fd[1]);
+	read(fd[0], buf, 13);
+	close(fd[0]);
+	printf("Message from my child: \"%s\"\n", buf);
+	exit(EXIT_SUCCESS);
 }
