@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 03:53:28 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/08 09:55:31 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/08 20:26:41 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	ft_allocate_execve_arg(char *str, char **word, int start_i,
  * Function is a parser of the second argument of the program. It split this
  * argument by space character and allocates a separate array place for each
  * of the bash cmd flags.
- * 
+ *
  * It also sets two last elements of execve_argv array to NULL.
- * 
+ *
  * At the exit of this function t_pipex structure in its execve_argv array should
  * have:
  * positions 0 to n - 3 - arguments of the execve program to triger
@@ -30,7 +30,7 @@ void	ft_allocate_execve_arg(char *str, char **word, int start_i,
  * 					there
  * position n - 1 - NULL so that the array is correct as per execve function
  * requirements
- * 
+ *
  */
 void	ft_allocate_execve_argv(t_pipex **pipex)
 {
@@ -58,15 +58,16 @@ void	ft_allocate_execve_argv(t_pipex **pipex)
 	}
 	ft_allocate_execve_arg(child->args[1], &child->execve_argv[word],
 		start, i - start);
-	child->execve_argv[child->execve_argc - 2] = NULL; // input data field
-	child->execve_argv[child->execve_argc - 1] = NULL; // requirement
+	//i = child->execve_argc;
+	//child->execve_argv[i - 2] = NULL; // doesn't work as expected
+	//child->execve_argv[i - 1] = NULL; // doesn't work as expected
 }
 // more than 25 lines
 
 /**
  * Function allocates memory for each of the argv array and copies
  * the correct part of the program second argument there.
- * 
+ *
  */
 void	ft_allocate_execve_arg(char *str, char **word, int start_i,
 		int nb_chars)

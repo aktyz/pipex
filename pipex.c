@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:13:54 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/08 08:42:48 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/08 20:24:00 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	ft_clean_mem(char **args[])
 	char	**arg;
 	int		i;
 
-	if (args == NULL || *args == NULL)
+	if (args == NULL || *args == NULL || **args == NULL)
 		return ;
 	arg = *args;
 	while (*args)
