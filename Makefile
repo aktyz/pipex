@@ -6,7 +6,7 @@
 #    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/04 15:20:00 by zslowian          #+#    #+#              #
-#    Updated: 2024/12/05 15:18:47 by zslowian         ###   ########.fr        #
+#    Updated: 2024/12/08 03:56:14 by zslowian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,11 @@ LIB = -L $(LIBFT_F) -lft
 RM = rm -f
 
 SRC = pipex.c \
+	pipex_arg_split.c \
 	pipex_child.c \
-	pipex_parent.c
+	pipex_parent.c \
+	test.c \
+	test_pipex_arg_split.c
 
 OBJ = $(SRC:.c=.o)
 

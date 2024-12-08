@@ -8,12 +8,14 @@
 > - [x] figure out how to free memory from a string to resolve my cleak even after my program clean-up function (leak des at the bottom of this file)
 - [x] norminette on main program structure
 - [x] how to handle the save of the data passed from child to parent - it will have unknown size... and structure depending on the commands called
-- [ ] check if ```input``` variable prints correctly in ```ft_child_process()``` line 43
+- [x] check if ```input``` variable prints correctly in ```ft_child_process()``` line 43
+- [x] figure out how to trigger excve process in child and then push the output into the pipe (?)
+- [ ] how to make execve() function aware of the input data?
 
 # Libft TODO
 - [ ] correct ft_strtrim for spaces inside the string: ```ft_trim("ls   -l")``` resulted in ```"ls   -l"``` instead of ```"ls -l"```
 - [x] fix properly and test ft_strjoin in libft so that you can use it
-- [ ] gnl to test and fix - instead of "My first line read?" it reads "rst line read?r" skipping the first BUFFER size of the input
+- [x] gnl to test and fix - instead of "My first line read?" it reads "rst line read?r" skipping the first BUFFER size of the input
 
 # BASH Notes
 <i>[Whitespace functions as a separator between commands and/or variables. Whitespace consists of either spaces, tabs, blank lines, or any combination thereof.](https://tldp.org/LDP/abs/html/special-chars.html#WHITESPACEREF)</i>
