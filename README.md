@@ -10,7 +10,9 @@
 - [x] how to handle the save of the data passed from child to parent - it will have unknown size... and structure depending on the commands called
 - [x] check if ```input``` variable prints correctly in ```ft_child_process()``` line 43
 - [x] figure out how to trigger excve process in child and then push the output into the pipe (?)
+- [ ] find the bug overriding the name of the input in void	ft_child_process(t_pipex **pipex)
 - [ ] how to make execve() function aware of the input data?
+- [ ] adapt your functions to the parent process
 
 # Libft TODO
 - [ ] correct ft_strtrim for spaces inside the string: ```ft_trim("ls   -l")``` resulted in ```"ls   -l"``` instead of ```"ls -l"```

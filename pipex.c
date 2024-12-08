@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:13:54 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/08 06:28:18 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/08 08:42:48 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_clean_up(t_pipex **pipex)
 
 	clean = *pipex;
 	ft_clean_mem((char ***) &clean->args);
-	ft_clean_mem((char ***) &clean->execve_args);
+	ft_clean_mem((char ***) &clean->execve_argv);
 	free(clean);
 }
 

@@ -6,12 +6,17 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 05:53:41 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/08 06:07:40 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/08 09:41:51 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+/**
+ * Function reads data from provided input source and stores it
+ * in before last place in execve_argv array.
+ *
+ */
 void	ft_get_input_data(t_pipex **pipex)
 {
 	int		fd;
@@ -24,12 +29,11 @@ void	ft_get_input_data(t_pipex **pipex)
 	if (fd == -1)
 		ft_error(&pipex, NULL);
 	tmp = NULL;
-	child->input_data = NULL;
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		tmp = child->input_data;
-		child->input_data = ft_strreplace(tmp, line);
+		tmp = child->execve_argv[child->execve_argc - 2];
+		child->execve_argv[child->execve_argc - 2] = ft_strreplace(tmp, line);
 		if (line)
 			free(line);
 		line = get_next_line(fd);

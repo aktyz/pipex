@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:15:23 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/08 06:07:07 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/08 09:10:48 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ typedef struct s_pipex
 	char	*args[4]; //we will store our trimmed args here
 	int		pipe_fd[2]; //we will store our pipe here
 	int		child_pid; //pid of the parent
-	char	*input_data;
 	char	*output_data;
-	char	*execve_args[]; // array of args to be passed to execve
+	int		execve_argc;
+	char	*execve_argv[]; // array of args to be passed to execve
 }	t_pipex;
 
 void	ft_child_process(t_pipex **pipex);
@@ -51,7 +51,7 @@ void	ft_clean_up(t_pipex **pipex);
 void	ft_get_input_data(t_pipex **pipex);
 
 void	ft_get_executable_data(t_pipex **pipex, char **executable);
-void	ft_allocate_execve_args(char *str, char c, char **result, int args_nb);
+void	ft_allocate_execve_argv(t_pipex **pipex);
 void	ft_allocate_execve_arg(char *str, char **word, int start_i,
 			int nb_chars);
 

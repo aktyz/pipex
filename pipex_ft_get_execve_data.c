@@ -6,25 +6,34 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 05:58:59 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/08 06:05:13 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/08 08:53:05 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+/**
+ * Function parses second argument of the program into separate execve
+ * arguments put in an array.
+ * 
+ * The same array have two additional fields: input data & NULL.
+ * Input data is a try.
+ * NULL is required in order to execve run smoothly.
+ * 
+ * This function also tries executable paths to find the right binary.
+ *  
+ */
 void	ft_get_executable_data(t_pipex **pipex, char **executable)
 {
 	t_pipex	*child;
-	int		args_nb;
 
 	child = *pipex;
-	args_nb = ft_strnchar(child->args[1], ' ') + 1;
-	ft_allocate_execve_args(child->args[1], ' ', child->execve_args, args_nb);
-	*executable = ft_strjoin(PATH_1, child->execve_args[0]);
+	ft_allocate_execve_argv(&child);
+	*executable = ft_strjoin(PATH_1, child->execve_argv[0]);
 	if (access(*executable, X_OK) == -1)
 	{
 		free(*executable);
-		*executable = ft_strjoin(PATH_2, child->execve_args[0]);
+		*executable = ft_strjoin(PATH_2, child->execve_argv[0]);
 		if (access(*executable, X_OK) == -1)
 		{
 			free(*executable);
