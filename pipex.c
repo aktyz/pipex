@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:13:54 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/09 14:37:04 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/09 19:57:05 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,9 @@ static void	ft_create_struct(t_pipex **pipex, char *args[])
 	c = pipe((*pipex)->pipe_outgoing);
 	if (c == -1)
 		ft_error(&pipex, NULL);
+	c = pipe((*pipex)->pipe_incoming);
+	if (c == -1)
+		ft_error(&pipex, NULL);
 	(*pipex)->child_pid = (int) fork();
 	if ((*pipex)->child_pid == -1)
 		ft_error(&pipex, NULL);
@@ -79,7 +82,7 @@ static void	ft_clean_mem(char **args[])
 	char	**arg;
 	int		i;
 
-	if (args == NULL || *args == NULL || **args == NULL)
+	if (args == NULL || *args == NULL || **args == NULL)//TODO: it breaks here
 		return ;
 	arg = *args;
 	while (*args)

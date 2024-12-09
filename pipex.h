@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:15:23 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/09 16:53:35 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/09 19:59:51 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ typedef struct s_pipex
 	int		pipe_incoming[2];
 	int		pipe_outgoing[2];
 	int		child_pid;
-	char	*input_data;
 	char	*output_data;
-	int		execve_argc;
 	t_list	*execve_argv;
 }	t_pipex;
 

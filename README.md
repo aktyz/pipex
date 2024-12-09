@@ -11,9 +11,10 @@
 - [x] check if ```input``` variable prints correctly in ```ft_child_process()``` line 43
 - [x] figure out how to trigger excve process in child and then push the output into the pipe (?)
 - [x] find the bug overriding the name of the input in void	ft_child_process(t_pipex **pipex)
-- [ ] how to make execve() function aware of the input data?
-	ie. handle properly: ```./pipex infile "grep a1" ls outfile```
 - [ ] adapt your functions to the parent process
+- [ ] how to make execve() function aware of the input data?
+	ie. handle properly: ```./pipex infile "grep a1" ls outfile``` output should be the <i>same</i> as ```< infile grep a1```
+
 
 # Libft TODO
 - [ ] OOO: create a more comprehensive trim function: ```ft_trim("ls   -l")``` resulted in ```"ls   -l"``` instead of ```"ls -l"```
