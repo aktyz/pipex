@@ -6,14 +6,14 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 03:53:28 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/09 16:08:28 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:53:01 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 void	ft_allocate_execve_argv(t_pipex **pipex);
-void	ft_allocate_execve_arg(t_pipex **pipex, char *str, int start_i,
+void	ft_allocate_execve_arg(t_pipex ***pipex, char *str, int start_i,
 			int nb_chars);
 
 /**
@@ -39,12 +39,12 @@ void	ft_allocate_execve_argv(t_pipex **pipex)
 	{
 		if (child->args[1][i] == ' ')
 		{
-			ft_allocate_execve_arg(&child, child->args[1], start, i - start);
+			ft_allocate_execve_arg(&pipex, child->args[1], start, i - start);
 			start = start + (i - start) + 1;
 		}
 		i++;
 	}
-	ft_allocate_execve_arg(&child, child->args[1], start, i - start);
+	ft_allocate_execve_arg(&pipex, child->args[1], start, i - start);
 }
 
 /**
@@ -53,7 +53,7 @@ void	ft_allocate_execve_argv(t_pipex **pipex)
  * there.
  *
  */
-void	ft_allocate_execve_arg(t_pipex **pipex, char *str, int start_i,
+void	ft_allocate_execve_arg(t_pipex ***pipex, char *str, int start_i,
 			int nb_chars)
 {
 	int		i;
@@ -64,13 +64,13 @@ void	ft_allocate_execve_arg(t_pipex **pipex, char *str, int start_i,
 
 	i = start_i;
 	j = 0;
-	child = *pipex;
+	child = **pipex;
 	argv = malloc(sizeof(t_list *));
 	if (!argv)
-		ft_error(&pipex, NULL);
+		ft_error(pipex, NULL);
 	argv->content = malloc(sizeof(char) * (nb_chars + 1));
 	if (!(argv->content))
-		ft_error(&pipex, NULL);
+		ft_error(pipex, NULL);
 	tmp = argv->content;
 	while (nb_chars > 0)
 	{

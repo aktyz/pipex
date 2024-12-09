@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:11:29 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/09 16:23:59 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/09 17:11:09 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,6 @@ void	ft_child_process(t_pipex **pipex)
 	ft_get_input_data(&child);
 	dup2(child->pipe_outgoing[1], STDOUT_FILENO);
 	close(child->pipe_outgoing[1]);
-	while (child->execve_argv) //TODO: still doen't print - do we pass the arguments correctly?
-	{
-		ft_printf("\"%s\"", child->execve_argv->content);
-		child->execve_argv = child->execve_argv->next;
-	}
 	argv = ft_lst_to_arr(child->execve_argv);
 	if (!argv)
 	{
@@ -41,6 +36,7 @@ void	ft_child_process(t_pipex **pipex)
 	ft_clean_up(pipex);
 	execve(executable, argv, NULL);
 	free(executable);
+	ft_clear_char_array(&argv);
 	ft_error(&pipex, NULL);
 }
-//TODO: too much lines
+//TODO: function has more than 25 lines

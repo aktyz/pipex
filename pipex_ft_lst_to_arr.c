@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:03:10 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/09 16:15:15 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/09 17:12:30 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ char	**ft_lst_to_arr(t_list *argv)
 	tmp = arr;
 	while (argv)
 	{
-		*tmp = argv->content;
-		tmp++; //TODO: check if you iterate the write level of pointer
+		*tmp = ft_trim(argv->content);
+		(*tmp)++;
 		argv = argv->next;
 	}
-	//TODO: add one more array cell with NULL in it
+	*tmp = NULL;
 	return (arr);
 }
