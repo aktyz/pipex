@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 06:29:19 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/08 06:30:15 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:18:43 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	main(void)
 
 	result = unlink("example.txt");
 	if (result == 0)
-		printf("File successfully deleted\n");
+		ft_printf("File successfully deleted\n");
 	else
-		printf("Error when deleting the file: %s\n", strerror(errno));
+		ft_printf("Error when deleting the file: %s\n", strerror(errno));
 	exit(EXIT_SUCCESS);
 }

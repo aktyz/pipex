@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 05:53:41 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/08 09:41:51 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:32:42 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * Function reads data from provided input source and stores it
- * in before last place in execve_argv array.
+ * in input_data.
  *
  */
 void	ft_get_input_data(t_pipex **pipex)
@@ -25,6 +25,7 @@ void	ft_get_input_data(t_pipex **pipex)
 	t_pipex	*child;
 
 	child = *pipex;
+	//TODO: check for the existance of the file
 	fd = open(child->args[0], O_RDONLY | O_CREAT);
 	if (fd == -1)
 		ft_error(&pipex, NULL);
@@ -32,8 +33,8 @@ void	ft_get_input_data(t_pipex **pipex)
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		tmp = child->execve_argv[child->execve_argc - 2];
-		child->execve_argv[child->execve_argc - 2] = ft_strreplace(tmp, line);
+		tmp = child->input_data;
+		child->input_data = ft_strreplace(tmp, line);
 		if (line)
 			free(line);
 		line = get_next_line(fd);

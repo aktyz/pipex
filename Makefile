@@ -6,7 +6,7 @@
 #    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/04 15:20:00 by zslowian          #+#    #+#              #
-#    Updated: 2024/12/08 06:12:55 by zslowian         ###   ########.fr        #
+#    Updated: 2024/12/09 16:03:36 by zslowian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRC = pipex.c \
 	pipex_child.c \
 	pipex_ft_get_execve_data.c \
 	pipex_ft_get_input_data.c \
+	pipex_ft_lst_to_arr.c \
 	pipex_parent.c
 
 OBJ = $(SRC:.c=.o)

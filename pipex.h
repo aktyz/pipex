@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:15:23 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/08 09:10:48 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:46:29 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,14 @@
 
 typedef struct s_pipex
 {
-	char	*args[4]; //we will store our trimmed args here
-	int		pipe_fd[2]; //we will store our pipe here
-	int		child_pid; //pid of the parent
+	char	*args[4];
+	int		pipe_incoming[2];
+	int		pipe_outgoing[2];
+	int		child_pid;
+	char	*input_data;
 	char	*output_data;
 	int		execve_argc;
-	char	*execve_argv[]; // array of args to be passed to execve
+	t_list	*execve_argv;
 }	t_pipex;
 
 void	ft_child_process(t_pipex **pipex);
@@ -52,8 +54,10 @@ void	ft_get_input_data(t_pipex **pipex);
 
 void	ft_get_executable_data(t_pipex **pipex, char **executable);
 void	ft_allocate_execve_argv(t_pipex **pipex);
-void	ft_allocate_execve_arg(char *str, char **word, int start_i,
+void	ft_allocate_execve_arg(t_pipex **pipex, char *str, int start_i,
 			int nb_chars);
+
+char	**ft_lst_to_arr(t_list *argv);
 
 // TESTS
 void	test_pipex(void);

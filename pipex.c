@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:13:54 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/08 20:24:00 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:37:04 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	ft_clean_up(t_pipex **pipex)
 	t_pipex	*clean;
 
 	clean = *pipex;
-	ft_clean_mem((char ***) &clean->args);
-	ft_clean_mem((char ***) &clean->execve_argv);
+	ft_clean_mem((char ***) &clean->args);//TODO: check if it works
+	ft_lstclear(&(clean->execve_argv), free);
 	free(clean);
 }
 
@@ -66,7 +66,7 @@ static void	ft_create_struct(t_pipex **pipex, char *args[])
 		(*pipex)->args[c] = ft_strtrim(args[c + 1], TRIM_SET);
 		c++;
 	}
-	c = pipe((*pipex)->pipe_fd);
+	c = pipe((*pipex)->pipe_outgoing);
 	if (c == -1)
 		ft_error(&pipex, NULL);
 	(*pipex)->child_pid = (int) fork();

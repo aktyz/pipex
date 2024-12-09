@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 05:58:59 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/08 08:53:05 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:14:03 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ void	ft_get_executable_data(t_pipex **pipex, char **executable)
 
 	child = *pipex;
 	ft_allocate_execve_argv(&child);
-	*executable = ft_strjoin(PATH_1, child->execve_argv[0]);
+	*executable = ft_strjoin(PATH_1, child->execve_argv->content);
 	if (access(*executable, X_OK) == -1)
 	{
 		free(*executable);
-		*executable = ft_strjoin(PATH_2, child->execve_argv[0]);
+		*executable = ft_strjoin(PATH_2, child->execve_argv->content);
 		if (access(*executable, X_OK) == -1)
 		{
 			free(*executable);

@@ -6,30 +6,20 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 03:53:28 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/08 20:26:41 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:08:28 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 void	ft_allocate_execve_argv(t_pipex **pipex);
-void	ft_allocate_execve_arg(char *str, char **word, int start_i,
+void	ft_allocate_execve_arg(t_pipex **pipex, char *str, int start_i,
 			int nb_chars);
 
 /**
  * Function is a parser of the second argument of the program. It split this
- * argument by space character and allocates a separate array place for each
- * of the bash cmd flags.
- *
- * It also sets two last elements of execve_argv array to NULL.
- *
- * At the exit of this function t_pipex structure in its execve_argv array should
- * have:
- * positions 0 to n - 3 - arguments of the execve program to triger
- * position n - 2 - NULL so that the subsequent function can place input data
- * 					there
- * position n - 1 - NULL so that the array is correct as per execve function
- * requirements
+ * argument by space character and allocates command members in a list
+ * in pipex structure
  *
  */
 void	ft_allocate_execve_argv(t_pipex **pipex)
@@ -49,43 +39,46 @@ void	ft_allocate_execve_argv(t_pipex **pipex)
 	{
 		if (child->args[1][i] == ' ')
 		{
-			ft_allocate_execve_arg(child->args[1], &child->execve_argv[word],
-				start, i - start);
+			ft_allocate_execve_arg(&child, child->args[1], start, i - start);
 			start = start + (i - start) + 1;
-			word++;
 		}
 		i++;
 	}
-	ft_allocate_execve_arg(child->args[1], &child->execve_argv[word],
-		start, i - start);
-	//i = child->execve_argc;
-	//child->execve_argv[i - 2] = NULL; // doesn't work as expected
-	//child->execve_argv[i - 1] = NULL; // doesn't work as expected
+	ft_allocate_execve_arg(&child, child->args[1], start, i - start);
 }
-// more than 25 lines
 
 /**
- * Function allocates memory for each of the argv array and copies
- * the correct part of the program second argument there.
+ * Function allocates memory for each of the execve arguments t_list
+ * and copies the correct part of the program second argument
+ * there.
  *
  */
-void	ft_allocate_execve_arg(char *str, char **word, int start_i,
-		int nb_chars)
+void	ft_allocate_execve_arg(t_pipex **pipex, char *str, int start_i,
+			int nb_chars)
 {
 	int		i;
 	int		j;
-	char	*my_word;
+	char	*tmp;
+	t_list	*argv;
+	t_pipex	*child;
 
 	i = start_i;
 	j = 0;
-	*word = malloc((nb_chars + 1) * sizeof(char));
-	my_word = *word;
+	child = *pipex;
+	argv = malloc(sizeof(t_list *));
+	if (!argv)
+		ft_error(&pipex, NULL);
+	argv->content = malloc(sizeof(char) * (nb_chars + 1));
+	if (!(argv->content))
+		ft_error(&pipex, NULL);
+	tmp = argv->content;
 	while (nb_chars > 0)
 	{
-		my_word[j] = str[i];
+		tmp[j] = str[i];
 		i++;
 		j++;
 		nb_chars--;
 	}
-	my_word[j] = '\0';
+	tmp[j] = '\0';
+	ft_lstadd_back(&(child->execve_argv), argv);
 }

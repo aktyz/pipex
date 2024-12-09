@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:11:29 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/08 09:53:47 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:19:07 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,28 @@ void	ft_child_process(t_pipex **pipex)
 	char	*executable;
 	int		nb;
 	int		i;
+	char	**argv;
 
 	child = *pipex;
-	close(child->pipe_fd[0]);
-	child->execve_argc = ft_strnchar(child->args[1], ' ') + 3;
+	close(child->pipe_outgoing[0]);
+	child->execve_argc = ft_strnchar(child->args[1], ' ') + 1;
 	ft_get_executable_data(&child, &executable);
-	ft_get_input_data(&child); // here we get with child->args[0] is NULL <- error we overwrote it somewhere
-	dup2(child->pipe_fd[1], STDOUT_FILENO);
-	close(child->pipe_fd[1]);
-	i = 0;
-	while (child->execve_argv[i])
+	ft_get_input_data(&child);
+	dup2(child->pipe_outgoing[1], STDOUT_FILENO);
+	close(child->pipe_outgoing[1]);
+	while (child->execve_argv) //TODO: still doen't print - do we pass the arguments correctly?
 	{
-		ft_printf("\"%s\"", child->execve_argv[i]);
-		i++;
+		ft_printf("\"%s\"", child->execve_argv->content);
+		child->execve_argv = child->execve_argv->next;
 	}
-	execve(executable, child->execve_argv, NULL);
+	argv = ft_lst_to_arr(child->execve_argv);
+	if (!argv)
+	{
+		free(executable);
+		ft_error(&pipex, NULL);		
+	}
+	ft_clean_up(pipex);
+	execve(executable, argv, NULL);
 	free(executable);
 	ft_error(&pipex, NULL);
 }

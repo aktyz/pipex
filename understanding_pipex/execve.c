@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 06:28:54 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/08 06:30:48 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:17:54 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	main(void)
 	{
 		result = execve("/usr/bin/ls", args, NULL);
 		if (result == -1)
-			printf("execve failed: %s\n", strerror(errno));
+			ft_printf("execve failed: %s\n", strerror(errno));
 	}
-	printf("This will not be executed\n");
+	ft_printf("This will not be executed\n");
 	return (0);
 }

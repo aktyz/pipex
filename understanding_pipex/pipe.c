@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 06:29:09 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/08 06:36:04 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:18:35 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ void	ft_parent(int **a)
 	close(fd[1]);
 	read(fd[0], buf, 13);
 	close(fd[0]);
-	printf("Message from my child: \"%s\"\n", buf);
+	ft_printf("Message from my child: \"%s\"\n", buf);
 	exit(EXIT_SUCCESS);
 }

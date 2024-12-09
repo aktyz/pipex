@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 06:28:46 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/08 06:31:33 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:17:50 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ int	main(void)
 	fd = open("example.txt", O_WRONLY | O_CREAT, 0644);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
-	printf("This is printed in example.txt\n");
+	ft_printf("This is printed in example.txt\n");
 	return (0);
 }

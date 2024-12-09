@@ -1,23 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   access.c                                           :+:      :+:    :+:   */
+/*   pipex_ft_lst_to_arr.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/08 06:28:36 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/09 16:17:43 by zslowian         ###   ########.fr       */
+/*   Created: 2024/12/09 16:03:10 by zslowian          #+#    #+#             */
+/*   Updated: 2024/12/09 16:15:15 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h> //printf
-#include <unistd.h> //access
+#include "pipex.h"
 
-int	main(void)
+char	**ft_lst_to_arr(t_list *argv)
 {
-	if (!access("example.txt", F_OK))
-		ft_printf("File exist\n");
-	else
-		ft_printf("File doesn't exist\n");
-	return (0);
+	int		size;
+	char	**arr;
+	char	**tmp;
+
+	size = ft_lstsize(argv);
+	arr = malloc(sizeof(char *) * size);
+	if (!arr)
+		return (NULL);
+	tmp = arr;
+	while (argv)
+	{
+		*tmp = argv->content;
+		tmp++; //TODO: check if you iterate the write level of pointer
+		argv = argv->next;
+	}
+	//TODO: add one more array cell with NULL in it
+	return (arr);
 }
