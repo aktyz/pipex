@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 05:53:41 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/09 20:03:14 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/09 21:46:46 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	ft_get_input_data(t_pipex **pipex)
 	if (line)
 		free(line);
 	close(child->pipe_incoming[1]);
-	close(child->pipe_incoming[0]);
+	printf("Child: Closed write end of the pipe from infile\n");
 	close(fd);
+	printf("Child: Closed the fd reading from the file\n")
 }

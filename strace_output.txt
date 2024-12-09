@@ -1,0 +1,7 @@
+--- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_DUMPED, si_pid=187906, si_uid=101201, si_status=SIGSEGV, si_utime=0, si_stime=0} ---
+write(1, "I am parent - executing second c"..., 57) = 57
+write(1, "Input received in parent:\n", 26) = 26
+write(1, "Input data: (null)\n", 19)    = 19
+write(4, NULL, 0)                       = 0
+--- SIGSEGV {si_signo=SIGSEGV, si_code=SEGV_MAPERR, si_addr=0x3fffffffb} ---
++++ killed by SIGSEGV (core dumped) +++
