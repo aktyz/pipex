@@ -6,13 +6,13 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 03:53:28 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/09 16:53:01 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/09 20:20:48 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_allocate_execve_argv(t_pipex **pipex);
+void	ft_allocate_execve_argv(t_pipex **pipex, int cmd);
 void	ft_allocate_execve_arg(t_pipex ***pipex, char *str, int start_i,
 			int nb_chars);
 
@@ -22,7 +22,7 @@ void	ft_allocate_execve_arg(t_pipex ***pipex, char *str, int start_i,
  * in pipex structure
  *
  */
-void	ft_allocate_execve_argv(t_pipex **pipex)
+void	ft_allocate_execve_argv(t_pipex **pipex, int cmd)
 {
 	int		i;
 	int		start;
@@ -34,17 +34,17 @@ void	ft_allocate_execve_argv(t_pipex **pipex)
 	start = 0;
 	word = 0;
 	child = *pipex;
-	len = ft_strlen(child->args[1]);
+	len = ft_strlen(child->args[cmd]);
 	while (i <= len)
 	{
-		if (child->args[1][i] == ' ')
+		if (child->args[cmd][i] == ' ')
 		{
-			ft_allocate_execve_arg(&pipex, child->args[1], start, i - start);
+			ft_allocate_execve_arg(&pipex, child->args[cmd], start, i - start);
 			start = start + (i - start) + 1;
 		}
 		i++;
 	}
-	ft_allocate_execve_arg(&pipex, child->args[1], start, i - start);
+	ft_allocate_execve_arg(&pipex, child->args[cmd], start, i - start);
 }
 
 /**
