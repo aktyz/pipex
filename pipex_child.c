@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:11:29 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/09 16:19:07 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:23:59 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,11 @@ void	ft_child_process(t_pipex **pipex)
 	if (!argv)
 	{
 		free(executable);
-		ft_error(&pipex, NULL);		
+		ft_error(&pipex, NULL);
 	}
 	ft_clean_up(pipex);
 	execve(executable, argv, NULL);
 	free(executable);
 	ft_error(&pipex, NULL);
 }
+//TODO: too much lines
