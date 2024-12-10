@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 03:53:28 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/10 16:47:47 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:51:37 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ void	ft_allocate_execve_arg(t_process ***pipex, char *str, int start_i,
 	argv = malloc(sizeof(t_list *));
 	if (!argv)
 		ft_error(pipex, NULL);
-	tmp = malloc(sizeof(char) * nb_chars);
-	while (nbclose(pipefd[1]);
-	if (dup2(filein, 0) == -1)
-		error("dup2");
-	execute(av[2], envp);_chars > 0)
+	argv->content = malloc(sizeof(char) * (nb_chars + 1));
+	if (!(argv->content))
+		ft_error(pipex, NULL);
+	tmp = argv->content;
+	while (nb_chars > 0)
 	{
 		tmp[j] = str[start_i];
 		start_i++;

@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:12:03 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/10 16:42:39 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/10 18:06:55 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,22 @@ void	ft_parent_process(t_process **pipex)
 	//child_pid = waitpid(parent->child_pid, NULL, 0);
 	//if (child_pid == -1)
 	//	ft_error(&pipex, NULL);
-	ft_printf("Parent: Child process terminated\n");
+	//ft_printf("Parent: Child process terminated\n");
 	close(parent->pipe[1]);
-	ft_printf("Parent: Closed write end of the pipe\n");
-	ft_get_input_from_fd(&parent, parent->pipe[0]);
-	ft_printf("Input received in parent:\n");
+	//ft_printf("Parent: Closed write end of the pipe\n");
+	dup2(parent->pipe[0], STDIN_FILENO);
+	//ft_printf("Parent: Redirected pipe to STDIN\n");
 	close(parent->pipe[0]);
-	ft_printf("Parent: Closed read end of the pipe\n");
-	//parent->out_fd = open(parent->args[3], O_RDWR | O_CREAT, 0644);
-	//if (parent->out_fd == -1)
-		//ft_error(&pipex, NULL);
+	//ft_printf("Parent: Closed read end of the pipe\n");
+	parent->out_fd = open(parent->args[3], O_RDWR | O_CREAT, 0644);
+	if (parent->out_fd == -1)
+		ft_error(&pipex, NULL);
 		//ft_printf("Parent: Opened outfile fd\n");
-	//if (!access(parent->args[3], F_OK))
-	//{
+	if (!access(parent->args[3], F_OK))
+	{
 		//ft_printf("Parent: About to redirect STDOUT to outfile\n");
-		//dup2(parent->out_fd, STDOUT_FILENO); // DEBUGGING: switch off
-	//}
+		dup2(parent->out_fd, STDOUT_FILENO); // DEBUGGING: switch off
+	}
 	argv = ft_lst_to_arr(parent->execve_argv);
 	if (!argv)
 	{
@@ -52,16 +52,14 @@ void	ft_parent_process(t_process **pipex)
 		ft_error(&pipex, NULL);
 	}
 
-	ft_printf("Parent: About to execve: %s\n", executable);
-	ft_printf("Parent: Argv table:\n");
+	//ft_printf("Parent: About to execve: %s\n", executable);
+	//ft_printf("Parent: Argv table:\n");
 	print = argv;
 	while (*print)
 	{
-		ft_printf("%s\n", *print);
+		//ft_printf("%s\n", *print);
 		*print++;
 	}
-	ft_printf("Parent: input data:\n");
-	ft_printf("%s\n", parent->input_data);
 	execve(executable, argv, NULL);
 
 

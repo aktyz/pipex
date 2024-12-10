@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:13:54 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/10 16:45:32 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:59:04 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,11 @@ int	main(int argc, char *argv[])
 	ft_create_struct(&pipex, argv);
 	if (pipex->child_pid == 0)
 		ft_child_process(&pipex);
-	waitpid(pipex->child_pid, NULL, 0);
-	ft_parent_process(&pipex);
+	else
+	{
+		waitpid(pipex->child_pid, NULL, 0);
+		ft_parent_process(&pipex);
+	}
 	ft_clean_up(&pipex);
 	exit(EXIT_SUCCESS);
 }
