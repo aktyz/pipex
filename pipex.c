@@ -6,44 +6,42 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:13:54 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/09 19:57:05 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:45:32 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void		ft_clean_up(t_pipex **pipex);
-void		ft_error(t_pipex ***pipex, char **string);
-static void	ft_create_struct(t_pipex **pipex, char *args[]);
-static void	ft_clean_mem(char **args[]);
+void		ft_clean_up(t_process **pipex);
+void		ft_error(t_process ***pipex, char **string);
+static void	ft_create_struct(t_process **pipex, char *args[]);
 
 int	main(int argc, char *argv[])
 {
-	t_pipex	*pipex;
+	t_process	*pipex;
 
 	if (argc != 5)
 		exit(EXIT_FAILURE);
 	ft_create_struct(&pipex, argv);
 	if (pipex->child_pid == 0)
 		ft_child_process(&pipex);
-	else
-		ft_parent_process(&pipex);
+	waitpid(pipex->child_pid, NULL, 0);
+	ft_parent_process(&pipex);
 	ft_clean_up(&pipex);
 	exit(EXIT_SUCCESS);
 }
 
-void	ft_clean_up(t_pipex **pipex)
+void	ft_clean_up(t_process **pipex)
 {
-	int		i;
-	t_pipex	*clean;
+	int			i;
+	t_process	*clean;
 
 	clean = *pipex;
-	ft_clean_mem((char ***) &clean->args);//TODO: check if it works
 	ft_lstclear(&(clean->execve_argv), free);
 	free(clean);
 }
 
-void	ft_error(t_pipex ***pipex, char **string)
+void	ft_error(t_process ***pipex, char **string)
 {
 	perror(strerror(errno));
 	if (**pipex)
@@ -53,11 +51,11 @@ void	ft_error(t_pipex ***pipex, char **string)
 	exit(EXIT_FAILURE);
 }
 
-static void	ft_create_struct(t_pipex **pipex, char *args[])
+static void	ft_create_struct(t_process **pipex, char *args[])
 {
 	int	c;
 
-	*pipex = ft_calloc(1, sizeof(t_pipex));
+	*pipex = ft_calloc(1, sizeof(t_process));
 	if (!*pipex)
 		ft_error(&pipex, NULL);
 	c = 0;
@@ -66,30 +64,10 @@ static void	ft_create_struct(t_pipex **pipex, char *args[])
 		(*pipex)->args[c] = ft_strtrim(args[c + 1], TRIM_SET);
 		c++;
 	}
-	c = pipe((*pipex)->pipe_outgoing);
-	if (c == -1)
-		ft_error(&pipex, NULL);
-	c = pipe((*pipex)->pipe_incoming);
+	c = pipe((*pipex)->pipe);
 	if (c == -1)
 		ft_error(&pipex, NULL);
 	(*pipex)->child_pid = (int) fork();
 	if ((*pipex)->child_pid == -1)
 		ft_error(&pipex, NULL);
-}
-
-static void	ft_clean_mem(char **args[])
-{
-	char	**arg;
-	int		i;
-
-	if (args == NULL || *args == NULL || **args == NULL)//TODO: it breaks here
-		return ;
-	arg = *args;
-	while (*args)
-	{
-		free(*args);
-		args++;
-	}
-	free(*args);
-	*args = NULL;
 }

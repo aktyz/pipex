@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 05:53:41 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/09 21:46:46 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/10 13:56:13 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,36 +17,24 @@
  * in input_data.
  *
  */
-void	ft_get_input_data(t_pipex **pipex)
+void	ft_get_input_from_fd(t_process **pipex, int fd)
 {
-	int		fd;
-	char	*tmp;
-	char	*line;
-	char	*input;
-	t_pipex	*child;
+	char		*tmp;
+	char		*line;
+	t_process	*process;
 
-	child = *pipex;
-	if (access(child->args[0], F_OK))
-		return ;
-	fd = open(child->args[0], O_RDONLY);
-	if (fd == -1)
-		ft_error(&pipex, NULL);
+	process = *pipex;
 	tmp = NULL;
-	input = NULL;
+	process->input_data = NULL;
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		tmp = input;
-		input = ft_strreplace(tmp, line);
+		tmp = process->input_data;
+		process->input_data = ft_strreplace(tmp, line);
 		if (line)
 			free(line);
 		line = get_next_line(fd);
 	}
-	write(child->pipe_incoming[1], input, ft_strlen(input));
 	if (line)
 		free(line);
-	close(child->pipe_incoming[1]);
-	printf("Child: Closed write end of the pipe from infile\n");
-	close(fd);
-	printf("Child: Closed the fd reading from the file\n")
 }

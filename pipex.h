@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:15:23 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/09 20:19:45 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:10:00 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,33 +32,31 @@
 # define PATH_1 "/bin/"
 # define PATH_2 "/usr/bin/"
 
-typedef struct s_pipex
+typedef struct s_process
 {
 	char	*args[4];
-	int		pipe_incoming[2];
-	int		pipe_outgoing[2];
-	int		child_pid;
+	int		pipe[2];
+	int		in_fd;
+	char	*input_data;
+	int		out_fd;
 	char	*output_data;
+	int		child_pid;
 	t_list	*execve_argv;
-}	t_pipex;
+}	t_process;
 
-void	ft_child_process(t_pipex **pipex);
-void	ft_parent_process(t_pipex **pipex);
+void	ft_child_process(t_process **pipex);
+void	ft_parent_process(t_process **pipex);
 
-void	ft_error(t_pipex ***pipex, char **string);
-void	ft_clean_up(t_pipex **pipex);
+void	ft_error(t_process ***pipex, char **string);
+void	ft_clean_up(t_process **pipex);
 
-void	ft_get_input_data(t_pipex **pipex);
+void	ft_get_input_from_fd(t_process **pipex, int fd);
 
-void	ft_get_executable_data(t_pipex **pipex, char **executable, int cmd);
-void	ft_allocate_execve_argv(t_pipex **pipex, int cmd);
-void	ft_allocate_execve_arg(t_pipex ***pipex, char *str, int start_i,
+void	ft_get_executable_data(t_process **pipex, char **executable, int cmd);
+void	ft_allocate_execve_argv(t_process **pipex, int cmd);
+void	ft_allocate_execve_arg(t_process ***pipex, char *str, int start_i,
 			int nb_chars);
 
 char	**ft_lst_to_arr(t_list *argv);
-
-// TESTS
-void	test_pipex(void);
-void	test_ft_allocate_execve_arg(void);
 
 #endif

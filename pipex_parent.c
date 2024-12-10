@@ -6,73 +6,66 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:12:03 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/09 21:49:16 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:42:39 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_parent_process(t_pipex **pipex);
+void	ft_parent_process(t_process **pipex);
 
-void	ft_parent_process(t_pipex **pipex)
+void	ft_parent_process(t_process **pipex)
 {
-	t_pipex	*parent;
-	int		c;
-	char	*line;
-	char	*tmp;
-	char	*input;
-	char	*output;
+	t_process	*parent;
 	char	*executable;
 	char	**argv;
+	char	**print;
 	pid_t	child_pid;
+	int		loc;
 
 	parent = *pipex;
-	close(parent->pipe_outgoing[1]);
-	printf("Parent: Closed write end of the pipe coming from child\n");
-	child_pid = waitpid(parent->child_pid, NULL, 0);// it hangs infinitelly here
-	if (child_pid == -1)
-		ft_error(&pipex, NULL);
-	printf("Parent: Child process terminated\n");
-	tmp = NULL;
-	input = NULL;
-	line = get_next_line(parent->pipe_outgoing[0]);// it hangs infinitelly here
-	ft_printf("Input received in parent:\n"); //TODO: Make sure we receive right thing here
-	while (line != NULL)
-	{
-		tmp = input;
-		input = ft_strreplace(tmp, line);
-		ft_printf("%s\n", input);
-		if (line)
-			free(line);
-		line = get_next_line(parent->pipe_outgoing[0]);
-	}
-	close(parent->pipe_outgoing[0]); // outgoing array is free to use
-	printf("Parent: Closed read end of the pipe coming from the child\n");
-	c = pipe(parent->pipe_incoming); // to read from input and redirect to execve
-	if (c == -1)
-		ft_error(&pipex, NULL);
-	dup2(parent->pipe_incoming[1], STDIN_FILENO); // zamiast stdin chcemy czytac z infile
-	ft_printf("Input data: %s\n", input);
-	write(parent->pipe_incoming[1], input, ft_strlen(input)); //read from input
-	close(parent->pipe_incoming[1]);
 	ft_get_executable_data(&parent, &executable, 2);
+	wait(NULL);
+	//child_pid = waitpid(parent->child_pid, NULL, 0);
+	//if (child_pid == -1)
+	//	ft_error(&pipex, NULL);
+	ft_printf("Parent: Child process terminated\n");
+	close(parent->pipe[1]);
+	ft_printf("Parent: Closed write end of the pipe\n");
+	ft_get_input_from_fd(&parent, parent->pipe[0]);
+	ft_printf("Input received in parent:\n");
+	close(parent->pipe[0]);
+	ft_printf("Parent: Closed read end of the pipe\n");
+	//parent->out_fd = open(parent->args[3], O_RDWR | O_CREAT, 0644);
+	//if (parent->out_fd == -1)
+		//ft_error(&pipex, NULL);
+		//ft_printf("Parent: Opened outfile fd\n");
+	//if (!access(parent->args[3], F_OK))
+	//{
+		//ft_printf("Parent: About to redirect STDOUT to outfile\n");
+		//dup2(parent->out_fd, STDOUT_FILENO); // DEBUGGING: switch off
+	//}
 	argv = ft_lst_to_arr(parent->execve_argv);
 	if (!argv)
 	{
 		free(executable);
 		ft_error(&pipex, NULL);
 	}
-	c = open(parent->args[3], O_RDWR | O_CREAT, 0644);
-	if (c == -1)
+
+	ft_printf("Parent: About to execve: %s\n", executable);
+	ft_printf("Parent: Argv table:\n");
+	print = argv;
+	while (*print)
 	{
-		ft_clear_char_array(&argv);
-		free(executable);
-		ft_error(&pipex, NULL);
+		ft_printf("%s\n", *print);
+		*print++;
 	}
-	dup2(c, STDOUT_FILENO);
-	ft_clean_up(pipex);
+	ft_printf("Parent: input data:\n");
+	ft_printf("%s\n", parent->input_data);
 	execve(executable, argv, NULL);
-	close(c);
+
+
+	perror("Parent: Execve failed");
 	free(executable);
 	ft_clear_char_array(&argv);
 	ft_error(&pipex, NULL);

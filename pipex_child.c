@@ -6,42 +6,64 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:11:29 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/09 21:46:11 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:39:15 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_child_process(t_pipex **pipex)
+void	ft_child_process(t_process **pipex)
 {
-	t_pipex	*child;	
+	t_process	*child;	
 	char	*executable;
-	int		nb;
-	int		i;
 	char	**argv;
+	char	**print;
 
 	child = *pipex;
-	close(child->pipe_outgoing[0]);
-	printf("Child: Closed read end of the pipe\n");
+	close(child->pipe[0]);
+	ft_printf("Child: Closed read end of the pipe\n");
 	ft_get_executable_data(&child, &executable, 1);
-	dup2(child->pipe_incoming[0], STDIN_FILENO);
-	printf("Child: Redirected read end of the STDIN to infile\n");
-	ft_get_input_data(&child);
-	dup2(child->pipe_outgoing[1], STDOUT_FILENO);
-	printf("Child: Redirected write end of the pipe to STDOUT\n");
-	close(child->pipe_outgoing[1]);
-	printf("Child: Closed write end of the pipe\n");
+	if (!access(child->args[0], F_OK))
+	{
+		child->in_fd = open(child->args[0], O_RDONLY);
+		if (child->in_fd == -1)
+			ft_error(&pipex, NULL);
+		ft_printf("Child: Opened infile fd\n");
+		if (child->in_fd == -1)
+			ft_error(&pipex, NULL);
+		dup2(child->in_fd, STDIN_FILENO);
+		ft_printf("Child: redirected infile to STDIN\n");
+	}
+	else
+		ft_error(&pipex, NULL);
+	ft_get_input_from_fd(&child, child->in_fd);
+	close(child->in_fd);
+	ft_printf("Child: Closed infile fd\n");
+	dup2(child->pipe[1], STDOUT_FILENO); // DEBUGGING: switch off
+	ft_printf("Child: redirected STDOUT to pipe\n");
+	write(child->pipe[1], child->input_data, ft_strlen(child->input_data));
+	ft_printf("Child: sent data to pipe\n");
+	close(child->pipe[1]);
+	ft_printf("Child: Closed write end of the pipe\n");
 	argv = ft_lst_to_arr(child->execve_argv);
 	if (!argv)
 	{
 		free(executable);
 		ft_error(&pipex, NULL);
 	}
-	printf("About to execve: %s\n", executable);
-	execve(executable, argv, NULL); //TODO: Find the infinite loop in the beggining of the parent process
-	perror("execve failed");
+	ft_printf("Child: Argv table:\n");
+	print = argv;
+	while (*print)
+	{
+		ft_printf("%s\n", *print);
+		*print++;
+	}
+	ft_printf("Child: input data:\n");
+	ft_printf("%s\n", child->input_data);
+	ft_printf("Child: About to execve: %s\n", executable);
+	execve(executable, argv, NULL);
+	perror("Child: Execve failed");
 	free(executable);
 	ft_clear_char_array(&argv);
 	ft_error(&pipex, NULL);
 }
-//TODO: function has more than 25 lines

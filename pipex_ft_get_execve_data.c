@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 05:58:59 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/09 20:48:57 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:05:53 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@
  * This function also tries executable paths to find the right binary.
  *  
  */
-void	ft_get_executable_data(t_pipex **pipex, char **executable, int cmd)
+void	ft_get_executable_data(t_process **pipex, char **executable, int cmd)
 {
-	t_pipex	*child;
+	t_process	*process;
 
-	child = *pipex;
-	ft_allocate_execve_argv(&child, cmd);
-	*executable = ft_strjoin(PATH_1, child->execve_argv->content);
+	process = *pipex;
+	ft_allocate_execve_argv(&process, cmd);
+	*executable = ft_strjoin(PATH_1, process->execve_argv->content);
 	if (access(*executable, X_OK) == -1)
 	{
 		free(*executable);
-		*executable = ft_strjoin(PATH_2, child->execve_argv->content);
+		*executable = ft_strjoin(PATH_2, process->execve_argv->content);
 		if (access(*executable, X_OK) == -1)
 		{
 			free(*executable);
