@@ -11,13 +11,18 @@
 - [x] check if ```input``` variable prints correctly in ```ft_child_process()``` line 43
 - [x] figure out how to trigger excve process in child and then push the output into the pipe (?)
 - [x] find the bug overriding the name of the input in void	ft_child_process(t_pipex **pipex)
-- [ ] adapt your functions to the parent process
-- [ ] how to make execve() function aware of the input data?
+- [x] adapt your functions to the parent process
+- [x] how to make execve() function aware of the input data?
 	ie. handle properly: ```./pipex infile "grep a1" ls outfile``` output should be the <i>same</i> as ```< infile grep a1```
+- [ ] Difficult norm
+- [ ] Valgrind on proper exit
+- [ ] Valgrind on Error
+- [ ] //TODO: check if it still works without the else clause in ```pipex.c```
+- [ ] //TODO: check if it still works with this out? in ```pipex_parent.c```
 
 
 # Libft TODO
-- [ ] OOO: create a more comprehensive trim function: ```ft_trim("ls   -l")``` resulted in ```"ls   -l"``` instead of ```"ls -l"```
+- [x] OOO: create a more comprehensive trim function: ```ft_trim("ls   -l")``` resulted in ```"ls   -l"``` instead of ```"ls -l"```
 - [x] fix properly and test ft_strjoin in libft so that you can use it
 - [x] gnl to test and fix - instead of "My first line read?" it reads "rst line read?r" skipping the first BUFFER size of the input
 

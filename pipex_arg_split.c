@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 03:53:28 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/10 16:51:37 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/10 18:18:17 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void	ft_allocate_execve_arg(t_process ***pipex, char *str, int start_i,
  */
 void	ft_allocate_execve_argv(t_process **pipex, int cmd)
 {
-	int		i;
-	int		start;
-	int		word;
-	int		len;
+	int			i;
+	int			start;
+	int			word;
+	int			len;
 	t_process	*process;
 
 	i = 0;
@@ -39,7 +39,8 @@ void	ft_allocate_execve_argv(t_process **pipex, int cmd)
 	{
 		if (process->args[cmd][i] == ' ')
 		{
-			ft_allocate_execve_arg(&pipex, process->args[cmd], start, i - start);
+			ft_allocate_execve_arg(&pipex, process->args[cmd], start,
+				i - start);
 			start = start + (i - start) + 1;
 		}
 		i++;
@@ -88,3 +89,4 @@ void	ft_allocate_execve_arg(t_process ***pipex, char *str, int start_i,
 	free(trimmed);
 	ft_lstadd_back(&(process->execve_argv), argv);
 }
+//Function has more than 25 lines

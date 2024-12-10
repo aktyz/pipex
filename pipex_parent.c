@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:12:03 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/10 18:11:59 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/10 18:16:53 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,3 +43,4 @@ void	ft_parent_process(t_process **pipex)
 	ft_clear_char_array(&argv);
 	ft_error(&pipex, NULL);
 }
+//Function has more than 25 lines
