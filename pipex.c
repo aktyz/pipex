@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:13:54 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/11 18:46:32 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/11 19:18:24 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void		ft_clean_up(t_process **pipex);
 void		ft_error(t_process ***pipex, char **string);
 static void	ft_create_struct(t_process **pipex, char *args[]);
+static void	ft_delete_lst_node(t_list *node);
 
 int	main(int argc, char *argv[])
 {
@@ -35,10 +36,21 @@ void	ft_clean_up(t_process **pipex)
 {
 	int			i;
 	t_process	*clean;
+	t_list		*node;
 
 	clean = *pipex;
-	if (clean->execve_argv)
-		ft_lstclear(&(clean->execve_argv), free);
+	node = clean->execve_argv;
+	if (node)
+	{
+		i = clean->execve_argc;
+		while (i > 0)
+		{
+			node = clean->execve_argv->next;
+			ft_delete_lst_node(clean->execve_argv);
+			clean->execve_argv = node;
+			i--;
+		}
+	}
 	if (clean->args[0])
 	{
 		i = 0;
@@ -81,4 +93,12 @@ static void	ft_create_struct(t_process **pipex, char *args[])
 	(*pipex)->child_pid = (int) fork();
 	if ((*pipex)->child_pid == -1)
 		ft_error(&pipex, NULL);
+}
+
+static void	ft_delete_lst_node(t_list *node)
+{
+	if (node->content)
+		free(node->content);
+	if (node)
+		free(node);
 }
