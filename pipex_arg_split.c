@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 03:53:28 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/10 18:18:17 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:20:46 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,7 @@ void	ft_allocate_execve_arg(t_process ***pipex, char *str, int start_i,
 	if (!(argv->content))
 		ft_error(pipex, NULL);
 	tmp = argv->content;
-	while (nb_chars > 0)
-	{
-		tmp[j] = str[start_i];
-		start_i++;
-		j++;
-		nb_chars--;
-	}
-	tmp[j] = '\0';
+	ft_strlcpy(tmp, &str[start_i], nb_chars);
 	trimmed = ft_strtrim(tmp, TRIM_SET);
 	free(tmp);
 	argv->content = malloc(sizeof(char) * ft_strlen(trimmed));
@@ -89,4 +82,3 @@ void	ft_allocate_execve_arg(t_process ***pipex, char *str, int start_i,
 	free(trimmed);
 	ft_lstadd_back(&(process->execve_argv), argv);
 }
-//Function has more than 25 lines
