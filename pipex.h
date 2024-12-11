@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:15:23 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/10 16:10:00 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:31:25 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	ft_get_executable_data(t_process **pipex, char **executable, int cmd);
 void	ft_allocate_execve_argv(t_process **pipex, int cmd);
 void	ft_allocate_execve_arg(t_process ***pipex, char *str, int start_i,
 			int nb_chars);
+void	ft_execute(t_process ***pipex, char	*executable);
 
 char	**ft_lst_to_arr(t_list *argv);
 

@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:11:29 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/10 18:17:09 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:30:01 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	ft_child_process(t_process **pipex)
 {
 	t_process	*child;	
 	char		*executable;
-	char		**argv;
 
 	child = *pipex;
 	close(child->pipe[0]);
@@ -33,19 +32,9 @@ void	ft_child_process(t_process **pipex)
 	}
 	else
 		ft_error(&pipex, NULL);
-	ft_get_input_from_fd(&child, child->in_fd);
 	dup2(child->pipe[1], STDOUT_FILENO);
 	close(child->pipe[1]);
-	argv = ft_lst_to_arr(child->execve_argv);
-	if (!argv)
-	{
-		free(executable);
-		ft_error(&pipex, NULL);
-	}
-	execve(executable, argv, NULL);
-	perror("Child: Execve failed");
+	ft_execute(&pipex, executable);
 	free(executable);
-	ft_clear_char_array(&argv);
 	ft_error(&pipex, NULL);
 }
-//Function has more than 25 lines
