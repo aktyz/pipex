@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 03:53:28 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/11 15:48:26 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/11 18:53:08 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	ft_allocate_execve_argv(t_process **pipex, int cmd)
 	i = 0;
 	start = 0;
 	process = *pipex;
+	process->execve_argc = 0;
 	len = ft_strlen(process->args[cmd]);
 	while (i <= len)
 	{
@@ -40,6 +41,7 @@ void	ft_allocate_execve_argv(t_process **pipex, int cmd)
 			ft_allocate_execve_arg(&pipex, process->args[cmd], start,
 				i - start);
 			start = start + (i - start) + 1;
+			(process->execve_argc)++;
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:15:23 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/11 13:31:25 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/11 18:01:52 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_process
 	int		out_fd;
 	char	*output_data;
 	int		child_pid;
+	int		execve_argc;
 	t_list	*execve_argv;
 }	t_process;
 

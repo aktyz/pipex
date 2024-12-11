@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:26:04 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/11 13:33:47 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/11 18:04:24 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,5 @@ void	ft_execute(t_process ***pipex, char	*executable)
 		ft_error(pipex, NULL);
 	}
 	execve(executable, argv, NULL);
-	ft_clear_char_array(&argv);
+	ft_clear_char_array(&argv, process->execve_argc);
 }

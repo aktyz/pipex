@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:11:29 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/11 13:30:01 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/11 18:53:42 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@ void	ft_child_process(t_process **pipex)
 		close(child->in_fd);
 	}
 	else
+	{
+		if (executable)
+			free(executable);
 		ft_error(&pipex, NULL);
+	}
 	dup2(child->pipe[1], STDOUT_FILENO);
 	close(child->pipe[1]);
 	ft_execute(&pipex, executable);

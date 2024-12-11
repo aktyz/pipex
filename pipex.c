@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:13:54 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/11 13:06:01 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/11 18:46:32 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,18 @@ void	ft_clean_up(t_process **pipex)
 	t_process	*clean;
 
 	clean = *pipex;
-	ft_lstclear(&(clean->execve_argv), free);
+	if (clean->execve_argv)
+		ft_lstclear(&(clean->execve_argv), free);
+	if (clean->args[0])
+	{
+		i = 0;
+		while (i < 4)
+		{
+			if (clean->args[i])
+				free(clean->args[i]);
+			i++;
+		}
+	}
 	free(clean);
 }
 
