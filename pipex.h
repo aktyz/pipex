@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:15:23 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/11 18:01:52 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/11 19:37:31 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_process
 	int		out_fd;
 	char	*output_data;
 	int		child_pid;
+	char	*executable;
 	int		execve_argc;
 	t_list	*execve_argv;
 }	t_process;
@@ -53,12 +54,14 @@ void	ft_clean_up(t_process **pipex);
 
 void	ft_get_input_from_fd(t_process **pipex, int fd);
 
-void	ft_get_executable_data(t_process **pipex, char **executable, int cmd);
+void	ft_get_executable_data(t_process **pipex, int cmd);
 void	ft_allocate_execve_argv(t_process **pipex, int cmd);
 void	ft_allocate_execve_arg(t_process ***pipex, char *str, int start_i,
 			int nb_chars);
 void	ft_execute(t_process ***pipex, char	*executable);
 
 char	**ft_lst_to_arr(t_list *argv);
+void	ft_delete_lst_node(t_list *node);
+void	ft_delete_lst(t_list **node, int size);
 
 #endif

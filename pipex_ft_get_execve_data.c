@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 05:58:59 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/10 16:05:53 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/11 19:31:19 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,21 @@
  * This function also tries executable paths to find the right binary.
  *  
  */
-void	ft_get_executable_data(t_process **pipex, char **executable, int cmd)
+void	ft_get_executable_data(t_process **pipex, int cmd)
 {
 	t_process	*process;
 
 	process = *pipex;
 	ft_allocate_execve_argv(&process, cmd);
-	*executable = ft_strjoin(PATH_1, process->execve_argv->content);
-	if (access(*executable, X_OK) == -1)
+	process->executable = ft_strjoin(PATH_1, process->execve_argv->content);
+	if (access(process->executable, X_OK) == -1)
 	{
-		free(*executable);
-		*executable = ft_strjoin(PATH_2, process->execve_argv->content);
-		if (access(*executable, X_OK) == -1)
+		free(process->executable);
+		process->executable = ft_strjoin(PATH_2,
+				process->execve_argv->content);
+		if (access(process->executable, X_OK) == -1)
 		{
-			free(*executable);
+			free(process->executable);
 			ft_error(&pipex, NULL);
 		}
 	}

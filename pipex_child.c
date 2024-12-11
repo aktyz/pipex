@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:11:29 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/11 19:16:45 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/11 19:38:25 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 void	ft_child_process(t_process **pipex)
 {
 	t_process	*child;	
-	char		*executable;
 
 	child = *pipex;
 	close(child->pipe[0]);
-	ft_get_executable_data(&child, &executable, 1);
+	ft_get_executable_data(&child, 1);
 	if (!access(child->args[0], F_OK))
 	{
 		child->in_fd = open(child->args[0], O_RDONLY);
@@ -31,14 +30,9 @@ void	ft_child_process(t_process **pipex)
 		close(child->in_fd);
 	}
 	else
-	{
-		if (executable)
-			free(executable);
 		ft_error(&pipex, NULL);
-	}
 	dup2(child->pipe[1], STDOUT_FILENO);
 	close(child->pipe[1]);
-	ft_execute(&pipex, executable);
-	free(executable);
+	ft_execute(&pipex, child->executable);
 	ft_error(&pipex, NULL);
 }
