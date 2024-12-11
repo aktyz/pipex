@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:03:10 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/09 19:55:50 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:17:22 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,17 @@ char	**ft_lst_to_arr(t_list *argv)
 	char	**arr;
 	char	**tmp;
 
-	size = ft_lstsize(argv);
-	arr = malloc(sizeof(char *) * (size + 1));
+	size = ft_lstsize(argv) + 1;
+	arr = malloc(sizeof(char *) * size);
 	if (!arr)
 		return (NULL);
 	tmp = arr;
-	while (argv)
+	while (size > 1)
 	{
 		*tmp = argv->content;
-		tmp++;
 		argv = argv->next;
+		tmp++;
+		size--;
 	}
 	*tmp = NULL;
 	return (arr);

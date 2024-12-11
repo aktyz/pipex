@@ -14,7 +14,7 @@
 - [x] adapt your functions to the parent process
 - [x] how to make execve() function aware of the input data?
 	ie. handle properly: ```./pipex infile "grep a1" ls outfile``` output should be the <i>same</i> as ```< infile grep a1```
-- [ ] Difficult norm
+- [x] Difficult norm
 - [ ] Valgrind on proper exit
 - [ ] Valgrind on Error
 - [x] //TODO: check if it still works without the else clause in ```pipex.c``` -> yes it works

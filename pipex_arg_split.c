@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 03:53:28 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/11 13:20:46 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:37:28 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,11 @@ void	ft_allocate_execve_argv(t_process **pipex, int cmd)
 {
 	int			i;
 	int			start;
-	int			word;
 	int			len;
 	t_process	*process;
 
 	i = 0;
 	start = 0;
-	word = 0;
 	process = *pipex;
 	len = ft_strlen(process->args[cmd]);
 	while (i <= len)
@@ -65,7 +63,7 @@ void	ft_allocate_execve_arg(t_process ***pipex, char *str, int start_i,
 
 	j = 0;
 	process = **pipex;
-	argv = malloc(sizeof(t_list *));
+	argv = malloc(sizeof(t_list));
 	if (!argv)
 		ft_error(pipex, NULL);
 	argv->content = malloc(sizeof(char) * (nb_chars + 1));
@@ -75,7 +73,7 @@ void	ft_allocate_execve_arg(t_process ***pipex, char *str, int start_i,
 	ft_strlcpy(tmp, &str[start_i], nb_chars);
 	trimmed = ft_strtrim(tmp, TRIM_SET);
 	free(tmp);
-	argv->content = malloc(sizeof(char) * ft_strlen(trimmed));
+	argv->content = malloc(sizeof(char) * (ft_strlen(trimmed) + 1));
 	if (!(argv->content))
 		ft_error(pipex, NULL);
 	ft_strlcpy(argv->content, trimmed, ft_strlen(trimmed));
