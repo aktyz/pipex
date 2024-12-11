@@ -17,7 +17,7 @@
 - [ ] Difficult norm
 - [ ] Valgrind on proper exit
 - [ ] Valgrind on Error
-- [ ] //TODO: check if it still works without the else clause in ```pipex.c```
+- [x] //TODO: check if it still works without the else clause in ```pipex.c``` yes it works
 - [ ] //TODO: check if it still works with this out? in ```pipex_parent.c```
 
 
