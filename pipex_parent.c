@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:12:03 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/10 18:16:53 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:07:42 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	ft_parent_process(t_process **pipex)
 
 	parent = *pipex;
 	ft_get_executable_data(&parent, &executable, 2);
-	wait(NULL);//TODO: check if it still works with this out?
 	close(parent->pipe[1]);
 	dup2(parent->pipe[0], STDIN_FILENO);
 	close(parent->pipe[0]);
