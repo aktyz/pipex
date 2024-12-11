@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 03:53:28 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/11 15:37:28 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:48:26 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,28 +55,14 @@ void	ft_allocate_execve_argv(t_process **pipex, int cmd)
 void	ft_allocate_execve_arg(t_process ***pipex, char *str, int start_i,
 			int nb_chars)
 {
-	int			j;
 	char		*tmp;
 	char		*trimmed;
-	t_list		*argv;
 	t_process	*process;
 
-	j = 0;
 	process = **pipex;
-	argv = malloc(sizeof(t_list));
-	if (!argv)
-		ft_error(pipex, NULL);
-	argv->content = malloc(sizeof(char) * (nb_chars + 1));
-	if (!(argv->content))
-		ft_error(pipex, NULL);
-	tmp = argv->content;
+	tmp = malloc(sizeof(char) * (nb_chars + 1));
 	ft_strlcpy(tmp, &str[start_i], nb_chars);
 	trimmed = ft_strtrim(tmp, TRIM_SET);
+	ft_lstadd_back(&(process->execve_argv), ft_lstnew(trimmed));
 	free(tmp);
-	argv->content = malloc(sizeof(char) * (ft_strlen(trimmed) + 1));
-	if (!(argv->content))
-		ft_error(pipex, NULL);
-	ft_strlcpy(argv->content, trimmed, ft_strlen(trimmed));
-	free(trimmed);
-	ft_lstadd_back(&(process->execve_argv), argv);
 }
