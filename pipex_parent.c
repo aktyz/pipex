@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:12:03 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/11 13:31:20 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/11 19:21:55 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,19 @@ void	ft_parent_process(t_process **pipex)
 	close(parent->pipe[0]);
 	parent->out_fd = open(parent->args[3], O_RDWR | O_CREAT, 0644);
 	if (parent->out_fd == -1)
+	{
+		if (executable)
+			free(executable);
 		ft_error(&pipex, NULL);
+	}
 	if (!access(parent->args[3], F_OK))
 		dup2(parent->out_fd, STDOUT_FILENO);
+	else
+	{
+		if (executable)
+			free(executable);
+		ft_error(&pipex, NULL);
+	}
 	ft_execute(&pipex, executable);
 	free(executable);
 	ft_error(&pipex, NULL);
