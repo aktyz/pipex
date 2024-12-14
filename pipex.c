@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:13:54 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/11 19:36:41 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/14 15:48:14 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,22 @@ int	main(int argc, char *argv[])
 	t_process	*pipex;
 
 	if (argc != 5)
+	{
+		ft_printf("Invalid number of arguments given!\n");
+		ft_printf("Please try again providing four arguments:\n");
+		ft_printf("<infile> <cmd1> <cmd2> <outfile>\n");
 		exit(EXIT_FAILURE);
+	}
 	ft_create_struct(&pipex, argv);
 	if (pipex->child_pid == 0)
-		ft_child_process(&pipex);
-	waitpid(pipex->child_pid, NULL, 0);
-	ft_parent_process(&pipex);
+	{
+		pipex->pipe_send = 1;
+		pipex->pipe_receive = 0;
+		ft_process(&pipex, 1);
+	}
+	else
+		waitpid(pipex->child_pid, NULL, 0);
+	ft_process(&pipex, 2);
 	ft_clean_up(&pipex);
 	exit(EXIT_SUCCESS);
 }
@@ -37,8 +47,9 @@ void	ft_clean_up(t_process **pipex)
 	t_process	*clean;
 
 	clean = *pipex;
-	if (clean->execve_argv)
-		ft_delete_lst(&(clean->execve_argv), clean->execve_argc);
+	if (clean->executable->execve_argv)
+		ft_delete_lst(&(clean->executable->execve_argv),
+			clean->executable->execve_argc);
 	if (clean->args[0])
 	{
 		i = 0;
@@ -71,13 +82,18 @@ static void	ft_create_struct(t_process **pipex, char *args[])
 	*pipex = ft_calloc(1, sizeof(t_process));
 	if (!*pipex)
 		ft_error(&pipex, NULL);
+	(*pipex)->executable = ft_calloc(1, sizeof(t_executable));
+	if (!(*pipex)->executable)
+		ft_error(&pipex, NULL);
 	c = 0;
 	while (c < 4)
 	{
 		(*pipex)->args[c] = ft_strtrim(args[c + 1], TRIM_SET);
 		c++;
 	}
-	c = pipe((*pipex)->pipe);
+	(*pipex)->pipe_send = 0;
+	(*pipex)->pipe_receive = 1;
+	c = pipe((*pipex)->pipe_parent);
 	if (c == -1)
 		ft_error(&pipex, NULL);
 	(*pipex)->child_pid = (int) fork();

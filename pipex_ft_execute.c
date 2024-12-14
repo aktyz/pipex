@@ -6,24 +6,24 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:26:04 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/11 18:04:24 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/14 15:20:18 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_execute(t_process ***pipex, char	*executable)
+void	ft_execute(t_process ***pipex)
 {
 	t_process	*process;
 	char		**argv;
 
 	process = **pipex;
-	argv = ft_lst_to_arr(process->execve_argv);
+	argv = ft_lst_to_arr(process->executable->execve_argv);
 	if (!argv)
 	{
-		free(executable);
+		free(process->executable->path);
 		ft_error(pipex, NULL);
 	}
-	execve(executable, argv, NULL);
-	ft_clear_char_array(&argv, process->execve_argc);
+	execve(process->executable->path, argv, NULL);
+	ft_clear_char_array(&argv, process->executable->execve_argc);
 }

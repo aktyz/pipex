@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 05:58:59 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/11 19:31:19 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/14 15:32:42 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,14 @@ void	ft_get_executable_data(t_process **pipex, int cmd)
 
 	process = *pipex;
 	ft_allocate_execve_argv(&process, cmd);
-	process->executable = ft_strjoin(PATH_1, process->execve_argv->content);
-	if (access(process->executable, X_OK) == -1)
+	process->executable->path = ft_strjoin(PATH_1,
+		process->executable->execve_argv->content);
+	if (access(process->executable->path, X_OK) == -1)
 	{
 		free(process->executable);
-		process->executable = ft_strjoin(PATH_2,
-				process->execve_argv->content);
-		if (access(process->executable, X_OK) == -1)
+		process->executable->path = ft_strjoin(PATH_2,
+				process->executable->execve_argv->content);
+		if (access(process->executable->path, X_OK) == -1)
 		{
 			free(process->executable);
 			ft_error(&pipex, NULL);

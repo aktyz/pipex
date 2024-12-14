@@ -1,12 +1,16 @@
-# 14.10.2024 - Starting from understanding External Functions I can use - three per day
-
-<i>"2 months later..."</i>
-
-> This project is mostly about ```<unistd.h>``` Library
 
 # TODO for bonus/minishell
-- [ ] unify pipex_child.c and pipex_parent.c into one function
+- [x] unify ```pipex_child.c``` and ```pipex_parent.c``` into one function
+- [ ] move ```ft_get_executable_data()``` into the t_process structure creation, with table as an output keept in structure
+- [ ] replace char ```*args[4]``` in structure with args array and name of the file in the right variable if necessary
+- [ ] learn BST and if they would be usefull for keeping my processes
 - [ ] figure out the structure to keep multiple commands
+
+# Terminal tests commands
+```./pipex infile1 "blahblah a1" "grep pipex" outfile```<br>
+```./pipex infile1 "ls -la" "grep pipex"```<br>
+```./pipex infile0 "grep a1" "wc -l" outfile```<br>
+```./pipex infile1 "ls -la" "grep pipex" outfile```<br>
 
 # TODO
 - [x] figure out how to free memory from a string to resolve my cleak even after my program clean-up function (leak des at the bottom of this file)
@@ -31,6 +35,17 @@
 
 # BASH Notes
 <i>[Whitespace functions as a separator between commands and/or variables. Whitespace consists of either spaces, tabs, blank lines, or any combination thereof.](https://tldp.org/LDP/abs/html/special-chars.html#WHITESPACEREF)</i>
+
+# Bonus/Minishell concept notes
+## Pipes between processes
+In my basic pipex, parent process opened a pipe from which it later read. I will follow this read-write direction in bonus/minishell:
+- pipe_parent[2] will contain fds from which:
+	- parent process will read
+	- child process will write
+- pipe_child[2] will contain fds from which:
+	- child process will read
+	- parent process will write
+Pipe_child still needs some rethinking once we figure out the structure to hold our processes in the right execution order.
 
 ## <unistd.h> Library
 
