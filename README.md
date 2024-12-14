@@ -4,12 +4,16 @@
 
 > This project is mostly about ```<unistd.h>``` Library
 
+# TODO for bonus/minishell
+- [ ] unify pipex_child.c and pipex_parent.c into one function
+- [ ] figure out the structure to keep multiple commands
+
 # TODO
-> - [x] figure out how to free memory from a string to resolve my cleak even after my program clean-up function (leak des at the bottom of this file)
+- [x] figure out how to free memory from a string to resolve my cleak even after my program clean-up function (leak des at the bottom of this file)
 - [x] norminette on main program structure
 - [x] how to handle the save of the data passed from child to parent - it will have unknown size... and structure depending on the commands called
 - [x] check if ```input``` variable prints correctly in ```ft_child_process()``` line 43
-- [x] figure out how to trigger excve process in child and then push the output into the pipe (?)
+- [x] figure out how to trigger excve process in child and then push the output into the pipe
 - [x] find the bug overriding the name of the input in void	ft_child_process(t_pipex **pipex)
 - [x] adapt your functions to the parent process
 - [x] how to make execve() function aware of the input data?
@@ -19,7 +23,6 @@
 - [x] Valgrind on Error
 - [x] //TODO: check if it still works without the else clause in ```pipex.c``` -> yes it works
 - [x] //TODO: check if it still works with this out? in ```pipex_parent.c``` -> yest it works
-
 
 # Libft TODO
 - [x] OOO: create a more comprehensive trim function: ```ft_trim("ls   -l")``` resulted in ```"ls   -l"``` instead of ```"ls -l"```
