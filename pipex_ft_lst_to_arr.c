@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:03:10 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/11 19:37:21 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/16 20:13:26 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ char	**ft_lst_to_arr(t_list *argv)
 	tmp = arr;
 	while (size > 1)
 	{
-		*tmp = argv->content;
+		*tmp = ft_calloc(sizeof(char), ft_strlen(argv->content) + 1);
+		ft_strlcpy(*tmp, argv->content, ft_strlen(argv->content));
 		argv = argv->next;
 		tmp++;
 		size--;

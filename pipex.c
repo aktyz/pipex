@@ -6,20 +6,27 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:13:54 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/14 15:48:14 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/16 21:42:40 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+int			main(int argc, char *argv[]);
 void		ft_clean_up(t_process **pipex);
 void		ft_error(t_process ***pipex, char **string);
-static void	ft_create_struct(t_process **pipex, char *args[]);
+static void	ft_create_process_data(t_process ***pipex);
+char		**ft_trim_user_input(char **argv, int argc);
 
 int	main(int argc, char *argv[])
 {
-	t_process	*pipex;
-
+	t_process	**process;
+	char		**trimmed_argvs;
+	
+	process = ft_calloc(1, sizeof(t_process *));
+	*process = ft_calloc(sizeof(t_process), 1);
+	if (!(*process))
+		ft_error(&process, NULL);
 	if (argc != 5)
 	{
 		ft_printf("Invalid number of arguments given!\n");
@@ -27,17 +34,22 @@ int	main(int argc, char *argv[])
 		ft_printf("<infile> <cmd1> <cmd2> <outfile>\n");
 		exit(EXIT_FAILURE);
 	}
-	ft_create_struct(&pipex, argv);
-	if (pipex->child_pid == 0)
+	ft_create_process_data(&process);
+	trimmed_argvs = ft_trim_user_input(argv, argc);
+	if ((*process)->child_pid == 0)
 	{
-		pipex->pipe_send = 1;
-		pipex->pipe_receive = 0;
-		ft_process(&pipex, 1);
+		(*process)->pipe_send = 1;
+		(*process)->pipe_receive = 0;
+		ft_get_executable_data(&(*process)->executable, trimmed_argvs[1], trimmed_argvs[0]);
+		ft_clear_char_array(&trimmed_argvs, argc - 1);
+		ft_process(process);
 	}
 	else
-		waitpid(pipex->child_pid, NULL, 0);
-	ft_process(&pipex, 2);
-	ft_clean_up(&pipex);
+		waitpid((*process)->child_pid, NULL, 0);
+	ft_get_executable_data(&(*process)->executable, trimmed_argvs[2], trimmed_argvs[3]);
+	ft_clear_char_array(&trimmed_argvs, argc - 1);
+	ft_process(process);
+	ft_clean_up(process);
 	exit(EXIT_SUCCESS);
 }
 
@@ -48,18 +60,14 @@ void	ft_clean_up(t_process **pipex)
 
 	clean = *pipex;
 	if (clean->executable->execve_argv)
-		ft_delete_lst(&(clean->executable->execve_argv),
-			clean->executable->execve_argc);
-	if (clean->args[0])
-	{
-		i = 0;
-		while (i < 4)
-		{
-			if (clean->args[i])
-				free(clean->args[i]);
-			i++;
-		}
-	}
+		ft_clear_char_array(&(clean->executable->execve_argv),
+			clean->executable->execve_argc + 1);
+	if (clean->executable->infile_name)
+		free(clean->executable->infile_name);
+	if (clean->executable->outfile_name)
+		free(clean->executable->outfile_name);
+	if (clean->executable->path)
+		free(clean->executable->path);
 	if (clean->executable)
 		free(clean->executable);
 	free(clean);
@@ -75,28 +83,39 @@ void	ft_error(t_process ***pipex, char **string)
 	exit(EXIT_FAILURE);
 }
 
-static void	ft_create_struct(t_process **pipex, char *args[])
+static void	ft_create_process_data(t_process ***pipex)
 {
-	int	c;
+	int			c;
+	t_process	*process;
 
-	*pipex = ft_calloc(1, sizeof(t_process));
-	if (!*pipex)
-		ft_error(&pipex, NULL);
-	(*pipex)->executable = ft_calloc(1, sizeof(t_executable));
-	if (!(*pipex)->executable)
-		ft_error(&pipex, NULL);
-	c = 0;
-	while (c < 4)
-	{
-		(*pipex)->args[c] = ft_strtrim(args[c + 1], TRIM_SET);
-		c++;
-	}
-	(*pipex)->pipe_send = 0;
-	(*pipex)->pipe_receive = 1;
-	c = pipe((*pipex)->pipe_parent);
+	process = **pipex;
+	(process)->executable = ft_calloc(1, sizeof(t_executable));
+	if (!(process)->executable)
+		ft_error(pipex, NULL);
+	(process)->pipe_send = 0;
+	(process)->pipe_receive = 1;
+	c = pipe((process)->pipe_parent);
 	if (c == -1)
-		ft_error(&pipex, NULL);
-	(*pipex)->child_pid = (int) fork();
-	if ((*pipex)->child_pid == -1)
-		ft_error(&pipex, NULL);
+		ft_error(pipex, NULL);
+	(process)->child_pid = (int) fork();
+	if ((process)->child_pid == -1)
+		ft_error(pipex, NULL);
+}
+
+char		**ft_trim_user_input(char **argv, int argc)
+{
+	int		i;
+	int		j;
+	char	**result;
+
+	i = 1;
+	j = 0;
+	result = ft_calloc(sizeof(char *), argc - 1);
+	while (i < argc - 1)
+	{
+		result[j] = ft_strtrim(argv[i], TRIM_SET);
+		i++;
+		j++;
+	}
+	return (result);
 }

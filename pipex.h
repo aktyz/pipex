@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:15:23 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/14 15:43:36 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/16 21:40:36 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,19 @@
 typedef struct s_executable
 {
 	char	*path;
+	char	*infile_name;
+	char	*outfile_name;
 	int		execve_argc;
-	t_list	*execve_argv;
+	char	**execve_argv;
 }	t_executable;
 
 typedef struct s_process
 {
-	char			*args[4];
 	int				pipe_parent[2];
 	int				pipe_send; // bool
 	int				pipe_receive; // bool
+	int				file_send;
+	int				file_receive;
 	int				in_file_fd;
 	char			*input_data;
 	int				out_file_fd;
@@ -55,16 +58,16 @@ typedef struct s_process
 
 
 
-void	ft_process(t_process **pipex, int cmd);
+void	ft_process(t_process **pipex);
 
 void	ft_error(t_process ***pipex, char **string);
 void	ft_clean_up(t_process **pipex);
 
 void	ft_get_input_from_fd(t_process **pipex, int fd);
 
-void	ft_get_executable_data(t_process **pipex, int cmd);
-void	ft_allocate_execve_argv(t_process **pipex, int cmd);
-void	ft_allocate_execve_arg(t_process ***pipex, char *str, int start_i,
+void	ft_get_executable_data(t_executable **executable, char *cmd, char *in_file);
+void	ft_allocate_execve_argv(t_executable **exe, char *cmd);
+void	ft_allocate_execve_arg(t_list **argv, char *cmd, int start_i,
 			int nb_chars);
 void	ft_execute(t_process ***pipex);
 

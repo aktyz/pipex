@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 05:58:59 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/14 15:32:42 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/16 21:39:35 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,27 @@
  * This function also tries executable paths to find the right binary.
  *  
  */
-void	ft_get_executable_data(t_process **pipex, int cmd)
+void	ft_get_executable_data(t_executable **executable, char *cmd, char *in_file)
 {
-	t_process	*process;
+	t_executable	*exe;
 
-	process = *pipex;
-	ft_allocate_execve_argv(&process, cmd);
-	process->executable->path = ft_strjoin(PATH_1,
-		process->executable->execve_argv->content);
-	if (access(process->executable->path, X_OK) == -1)
+	exe = *executable;
+	ft_allocate_execve_argv(executable, cmd);
+	if (*in_file)
 	{
-		free(process->executable);
-		process->executable->path = ft_strjoin(PATH_2,
-				process->executable->execve_argv->content);
-		if (access(process->executable->path, X_OK) == -1)
+		exe->infile_name = ft_calloc(sizeof(char), ft_strlen(in_file) + 1);
+		ft_strlcpy(exe->infile_name, in_file, ft_strlen(in_file));
+	}
+	exe->path = ft_strjoin(PATH_1,
+		exe->execve_argv[0]);
+	if (access(exe->path, X_OK) == -1)
+	{
+		free(exe);
+		exe->path = ft_strjoin(PATH_2,
+				exe->execve_argv[0]);
+		if (access(exe->path, X_OK) == -1)
 		{
-			free(process->executable);
-			ft_error(&pipex, NULL);
+			free(exe);
 		}
 	}
 }
