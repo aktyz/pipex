@@ -1,6 +1,17 @@
 
 # TODO for bonus/minishell
 - [x] unify ```pipex_child.c``` and ```pipex_parent.c``` into one function
+- [ ] create a list of different Linux command calls in chain (test cases)
+- [ ] start working on parsing, the output of the parsing being a simplified procecss structure:
+```
+typedef struct s_process
+{
+	char	*cmd_with_flags; //I already have functions to split into array
+	int		in_fd;
+	int		out_fd;
+	int		child_pid;
+}	t_process;
+```
 - [ ] move ```ft_get_executable_data()``` into the t_process structure creation, with table as an output keept in structure
 - [ ] replace char ```*args[4]``` in structure with args array and name of the file in the right variable if necessary
 - [ ] learn BST and if they would be usefull for keeping my processes

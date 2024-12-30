@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:13:54 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/30 16:55:03 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/30 17:09:18 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	main(int argc, char *argv[])
 {
 	t_process	**process;
 	char		**trimmed_argvs;
+	// list of pipes strucutres missing
 	
 	process = ft_calloc(1, sizeof(t_process *));
 	*process = ft_calloc(sizeof(t_process), 1);
@@ -34,8 +35,16 @@ int	main(int argc, char *argv[])
 		ft_printf("<infile> <cmd1> <cmd2> <outfile>\n");
 		exit(EXIT_FAILURE);
 	}
+	// while loop missing for separate processes depending on arguments passed from terminal
+	/**
+	 * Structure I would need for each process:
+	 * - string storing command with flags
+	 * - something storing the cmd input fd
+	 * - something storing the cmd output fd
+	 */
 	ft_create_process_data(&process);
 	trimmed_argvs = ft_trim_user_input(argv, argc);
+	// function to start moving through the list of processes missing
 	if ((*process)->child_pid == 0)
 	{
 		(*process)->pipe_send = 1;
