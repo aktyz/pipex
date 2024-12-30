@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:13:54 by zslowian          #+#    #+#             */
-/*   Updated: 2024/12/16 21:42:40 by zslowian         ###   ########.fr       */
+/*   Updated: 2024/12/30 16:55:03 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ static void	ft_create_process_data(t_process ***pipex)
 	(process)->executable = ft_calloc(1, sizeof(t_executable));
 	if (!(process)->executable)
 		ft_error(pipex, NULL);
-	(process)->pipe_send = 0;
 	(process)->pipe_receive = 1;
 	c = pipe((process)->pipe_parent);
 	if (c == -1)
@@ -111,7 +110,7 @@ char		**ft_trim_user_input(char **argv, int argc)
 	i = 1;
 	j = 0;
 	result = ft_calloc(sizeof(char *), argc - 1);
-	while (i < argc - 1)
+	while (i < argc)
 	{
 		result[j] = ft_strtrim(argv[i], TRIM_SET);
 		i++;
